@@ -1,7 +1,13 @@
 import {Image, StyleSheet, View} from 'react-native';
 import React from 'react';
 import ModalSelector from 'react-native-modal-selector';
-import {overlayStyles} from '../../../core/constants/Styles';
+import {
+  modalOverlayStyle,
+  modalSelectorCancelStyle,
+  modalSelectorCancelTextStyle,
+  modalSelectorOptionContainerStyle,
+  modalSelectorOptionTextStyle,
+} from '../../../core/constants/Styles';
 
 const treeactionPickerData = [
   {key: 0, label: 'veg-strain', started: new Date()},
@@ -18,7 +24,14 @@ const treeactionPickerData = [
   {key: 7, label: 'veg-strain', started: new Date()},
   {key: 8, label: 'veg-strain', started: new Date()},
 ];
-const PlantSelector = ({icons, setSelectedPlant, translation, colors}) => {
+const PlantSelector = ({
+  icons,
+  setSelectedPlant,
+  translation,
+  colors,
+  plants,
+}) => {
+  console.log('plants', plants);
   return (
     <View style={styles.formInput}>
       <Image
@@ -26,8 +39,16 @@ const PlantSelector = ({icons, setSelectedPlant, translation, colors}) => {
         source={icons.buttons.actions.newAction[0]}
       />
       <ModalSelector
+        overlayStyle={modalOverlayStyle}
+        optionContainerStyle={modalSelectorOptionContainerStyle}
         style={styles.modalSelector}
-        data={treeactionPickerData}
+        optionTextStyle={modalSelectorOptionTextStyle}
+        cancelStyle={modalSelectorCancelStyle}
+        cancelTextStyle={modalSelectorCancelTextStyle}
+        cancelText={translation.core && translation.core.Cancel}
+        data={plants}
+        keyExtractor={item => item.id}
+        labelExtractor={item => item.strainName}
         initValue={
           translation.actions && translation.actions.newAction.SelectPlant
         }
@@ -36,8 +57,6 @@ const PlantSelector = ({icons, setSelectedPlant, translation, colors}) => {
         }}
         listType={'SCROLLVIEW'}
         animationType={'fade'}
-        overlayStyle={overlayStyles}
-        cancelText=""
       />
     </View>
   );
@@ -83,5 +102,5 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
   },
   actionPickerItem: {},
-  modalSelector: {borderBottomColor: 'black', borderBottomWidth: 1, flex: 1},
+  modalSelector: {},
 });

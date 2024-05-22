@@ -30,6 +30,15 @@ import Strain from '../components/Guides/screens/Strain';
 import Watering from '../components/Guides/screens/Watering';
 import Humidity from '../components/Guides/screens/Humidity';
 import Crops from '../components/Guides/screens/Crops';
+import AddEnvJournal from '../components/Environments/screens/AddEnvJournal';
+import AddPlantJournal from '../components/Plants/screens/AddPlantJournal';
+import Plant from '../components/Plants/screens/Plant';
+
+import Environment from '../components/Environments/screens/Environment';
+import SelectEnv from '../components/Plants/screens/SelectEnv';
+import AfterCare from '../components/Guides/screens/AfterCare';
+import Drying from '../components/Guides/screens/Drying';
+import Harvesting from '../components/Guides/screens/Harvesting';
 
 const Stack = createNativeStackNavigator();
 
@@ -51,6 +60,13 @@ const StackNavigator = () => {
         }}
       />
       <Stack.Screen
+        name="plant"
+        component={Plant}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="add_plants"
         component={AddPlant}
         options={{
@@ -58,8 +74,37 @@ const StackNavigator = () => {
         }}
       />
       <Stack.Screen
+        name="select_env"
+        component={SelectEnv}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="add_plant_action"
+        component={AddPlantJournal}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="add_envs"
         component={AddEnv}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="env"
+        component={Environment}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="add_envs_journal"
+        component={AddEnvJournal}
         options={{
           headerShown: false,
         }}
@@ -216,6 +261,27 @@ const StackNavigator = () => {
       <Stack.Screen
         name="watering"
         component={Watering}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="harvest"
+        component={Harvesting}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="drying"
+        component={Drying}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="after"
+        component={AfterCare}
         options={{
           headerShown: false,
         }}

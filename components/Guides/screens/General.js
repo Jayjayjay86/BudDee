@@ -1,4 +1,4 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import BottomToolBar from '../../../core/components/Headers/BottomToolBar';
 
@@ -15,18 +15,41 @@ const General = ({navigation}) => {
   const handleGoBack = () => {
     navigation.navigate('crops');
   };
-
+  const textColor = {color: theme.library.textColor};
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: theme.core.background}]}>
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={theme.background}
+      />
       <View>
-        <Text style={styles.headerText}>
+        <Text style={[styles.headerText, textColor]}>
           {translation.guides && translation.guides.general.HeaderText}
         </Text>
       </View>
 
       <ScrollView style={styles.scrollView}>
-        <Text style={styles.primary}>
+        <Text style={[styles.primary, textColor]}>
           {translation.guides && translation.guides.general.p1}
+        </Text>
+
+        <Text style={[styles.primary, textColor]}>
+          {translation.guides && translation.guides.general.p2}
+        </Text>
+        <Text style={[styles.primary, textColor]}>
+          {translation.guides && translation.guides.general.p3}
+        </Text>
+        <Text style={[styles.primary, textColor]}>
+          {translation.guides && translation.guides.general.p4}
+        </Text>
+        <Text style={[styles.primary, textColor]}>
+          {translation.guides && translation.guides.general.p5}
+        </Text>
+        <Text style={[styles.primary, textColor]}>
+          {translation.guides && translation.guides.general.p6}
+        </Text>
+        <Text style={[styles.primary, textColor]}>
+          {translation.guides && translation.guides.general.p7}
         </Text>
       </ScrollView>
 
@@ -49,36 +72,7 @@ const General = ({navigation}) => {
 export default General;
 
 const styles = StyleSheet.create({
-  container: {alignItems: 'center'},
-  primary: {
-    fontSize: 15,
-    fontFamily: 'Poppins-Regular',
-    margin: 20,
-    padding: 5,
-    textAlign: 'justify',
-  },
-  next: {fontFamily: 'Poppins-LightItalic'},
-  instructionContainer: {flexDirection: 'row', justifyContent: 'center'},
-  instruction: {textAlign: 'center', fontFamily: 'Poppins-SemiBoldItalic'},
-  link: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 1,
-    padding: 7,
-    paddingBottom: 15,
-    borderBottomWidth: 1,
-    borderColor: 'rgba(235,235,235,1)',
-  },
-  linkText: {fontSize: 14, fontFamily: 'Poppins-Light', paddingHorizontal: 10},
-  image: {width: '74%', height: '20%', marginHorizontal: 5},
-  subHeaderText: {
-    fontSize: 13,
-    fontFamily: 'Poppins-Light',
-    margin: 10,
-    marginBottom: 0,
-    textAlign: 'justify',
-    padding: 3,
-  },
+  container: {alignItems: 'center', height: '100%'},
   headerText: {
     fontSize: 25,
     fontFamily: 'Poppins-SemiBold',
@@ -88,12 +82,51 @@ const styles = StyleSheet.create({
     padding: 3,
     marginTop: 5,
   },
-  contentLink: {margin: 5},
-  contentLinks: {
-    height: '69%',
-    borderColor: 'rgba(235,235,235,1)',
-    borderWidth: 1,
-    margin: 2,
+  imageBox: {
+    width: 175,
+    height: 175,
+    marginHorizontal: 5,
+    borderWidth: 3,
+    borderRadius: 500,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
   },
-  scrollView: {height: '64.4%'},
+  image: {width: 170, height: 170, borderRadius: 500},
+  tldrContainer: {alignItems: 'center', marginTop: 10},
+  tldrHeader: {fontSize: 25, marginTop: 10},
+  tldrHiddenContainer: {
+    margin: 20,
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 30,
+  },
+  tldrText: {fontSize: 18},
+  readMoreContainer: {alignItems: 'center'},
+  tapHereLink: {
+    fontSize: 25,
+    fontFamily: 'Poppins-Italic',
+    padding: 5,
+    paddingTop: 6,
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    borderWidth: 1,
+  },
+
+  primary: {
+    fontSize: 15,
+    fontFamily: 'Poppins-Regular',
+    margin: 20,
+    padding: 5,
+    textAlign: 'justify',
+  },
+
+  next: {fontFamily: 'Poppins-LightItalic'},
+  instructionContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  instruction: {textAlign: 'center', fontFamily: 'Poppins-SemiBoldItalic'},
+
+  scrollView: {height: '91.7%'},
 });

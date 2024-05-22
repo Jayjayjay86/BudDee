@@ -15,17 +15,21 @@ export const CoreColor = {
   lightBorder: 'rgba(212,155,80,1)',
   darkDarkest: 'rgba(15,18,31,1)',
   greyDark: 'rgba(113,122,123,1)',
+  plantGreen: 'rgba(0,122,0,0.3)',
+  deleteRed: 'rgba(170,0,0,0.7)',
+  calculate: 'rgba(0,122,0,0.7)',
 };
 export const colorMode = async isDarkmode => {
-  console.log('running colormode');
   try {
     if (isDarkmode) {
-      console.log('DarkMOdeTIMeYEAHE');
       return {
         // dark
 
         library: {textColor: CoreColor.darkText},
         core: {
+          calculate: CoreColor.calculate,
+          delete: CoreColor.deleteRed,
+          plantGreen: CoreColor.plantGreen,
           background: CoreColor.darkBackground,
           darkBorder: CoreColor.darkDarkest,
           textColor: CoreColor.darkText,
@@ -110,12 +114,15 @@ export const colorMode = async isDarkmode => {
         },
       };
     }
-    console.log('lightmodetime');
+
     return {
       // light
 
       library: {textColor: CoreColor.darkest},
       core: {
+        calculate: CoreColor.calculate,
+        delete: CoreColor.deleteRed,
+        plantGreen: CoreColor.plantGreen,
         background: CoreColor.white,
         activityIndicator: CoreColor.darkGrey,
         textColor: CoreColor.darkest,

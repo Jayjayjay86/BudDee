@@ -1,20 +1,31 @@
 import {StyleSheet, TextInput, View} from 'react-native';
 import React from 'react';
 
-const NameInput = ({colors, translation, setEnvObject}) => {
+const NameInput = ({colors, translation, setEnvObject, envObject}) => {
   const inputStyles = {borderColor: colors.envs.new.nameInputBorder};
   return (
     <View style={styles.formInput}>
-      <TextInput
-        placeholder={
-          translation.environments &&
-          translation.environments.addEnv.placeholder.Name
-        }
-        style={[styles.textInput, inputStyles]}
-        onChange={value =>
-          setEnvObject(prevState => ({...prevState, name: value}))
-        }
-      />
+      {!envObject.name ? (
+        <>
+          <TextInput
+            placeholder={translation.environments.addEnv.placeholder.Name}
+            style={[styles.textInput, inputStyles]}
+            onChangeText={value =>
+              setEnvObject(prevState => ({...prevState, name: value}))
+            }
+          />
+        </>
+      ) : (
+        <>
+          <TextInput
+            value={envObject.name}
+            style={[styles.textInput, inputStyles]}
+            onChangeText={value =>
+              setEnvObject(prevState => ({...prevState, name: value}))
+            }
+          />
+        </>
+      )}
     </View>
   );
 };

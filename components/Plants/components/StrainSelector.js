@@ -1,28 +1,49 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import ModalSelector from 'react-native-modal-selector';
 
+import {
+  modalOverlayStyle,
+  modalSelectorCancelStyle,
+  modalSelectorCancelTextStyle,
+  modalSelectorOptionContainerStyle,
+  modalSelectorOptionTextStyle,
+} from '../../../core/constants/Styles';
+
 const StrainSelector = ({
+  plantObject,
   colors,
   translation,
-  setNewPlantObject,
-  strainsData,
+  setPlantObject,
+  strains,
 }) => {
   const textStyles = {color: colors.plants.new.textColor};
+
   return (
     <View style={styles.inputContainer}>
       <Text style={[styles.inputText, textStyles]}>
         {translation.plants && translation.plants.addPlant.Strain}
       </Text>
       <ModalSelector
+        scrollEnabled={true}
+        overlayStyle={modalOverlayStyle}
+        optionContainerStyle={modalSelectorOptionContainerStyle}
         style={styles.modalSelector}
-        data={strainsData}
+        optionTextStyle={modalSelectorOptionTextStyle}
+        cancelStyle={modalSelectorCancelStyle}
+        cancelTextStyle={modalSelectorCancelTextStyle}
+        data={strains}
         initValue={
-          translation.plants &&
-          translation.plants.addPlant.placeholder.PleaseChoose
+          translation.plants && translation.plants.addPlant.placeholder.Select
+        }
+        value={
+          plantObject.strain
+            ? plantObject.strain.strainName
+            : translation.plants &&
+              translation.plants.addPlant.placeholder.PleaseChoose
         }
         onChange={value => {
-          setNewPlantObject(prevState => ({
+          setPlantObject(prevState => ({
             ...prevState,
             strain: value,
           }));
@@ -38,7 +59,7 @@ const styles = StyleSheet.create({
   container: {flexDirection: 'column', height: '100%'},
   form: {flex: 1},
   inputText: {fontSize: 14, fontFamily: 'Poppins-Regular', margin: 5},
-  modalSelector: {margin: 15},
+  modalSelector: {marginHorizontal: 15},
   modalSelectorPhase: {marginVertical: 10},
   phaseContainer: {},
   phaseSelect: {},

@@ -16,11 +16,10 @@ export default LibrarySubHeader;
 
 const styles = StyleSheet.create({
   subHeaderText: {
-    fontSize: 13,
+    fontSize: 16,
     fontFamily: 'Poppins-Light',
-    margin: 10,
-    marginBottom: 10,
+    marginHorizontal: 20,
+    marginTop: 20,
     textAlign: 'justify',
-    padding: 3,
   },
 });

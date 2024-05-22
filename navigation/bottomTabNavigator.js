@@ -24,6 +24,20 @@ function BottomTabs() {
     backgroundColor: theme.core.bottomtabs.backgroundColor,
   };
 
+  const EnvironmentsTabBar = () => (
+    <TabBarIcon source={icons.buttons.bottomTabs[2]} size={65} />
+  );
+
+  const homeTabBar = () => (
+    <TabBarIcon source={icons.buttons.bottomTabs[0]} size={40} />
+  );
+  const plantsTabBar = () => (
+    <TabBarIcon source={icons.buttons.bottomTabs[1]} size={60} />
+  );
+
+  const settingsTabBar = () => (
+    <TabBarIcon source={icons.buttons.bottomTabs[3]} size={30} />
+  );
   return (
     <Tab.Navigator
       screenOptions={{
@@ -46,9 +60,7 @@ function BottomTabs() {
         component={Home}
         options={{
           headerShown: false,
-          tabBarIcon: ({size}) => (
-            <TabBarIcon source={icons.buttons.bottomTabs[0]} size={size + 10} />
-          ),
+          tabBarIcon: homeTabBar,
           tabBarLabel:
             translation.core && translation.core.headers.bottomToolBar.Home,
         }}
@@ -58,9 +70,7 @@ function BottomTabs() {
         component={Plants}
         options={{
           headerShown: false,
-          tabBarIcon: ({size}) => (
-            <TabBarIcon source={icons.buttons.bottomTabs[1]} size={size + 20} />
-          ),
+          tabBarIcon: plantsTabBar,
           tabBarLabel:
             translation.core && translation.core.headers.bottomToolBar.Plants,
         }}
@@ -70,9 +80,7 @@ function BottomTabs() {
         component={Environments}
         options={{
           headerShown: false,
-          tabBarIcon: ({size}) => (
-            <TabBarIcon source={icons.buttons.bottomTabs[2]} size={size + 35} />
-          ),
+          tabBarIcon: EnvironmentsTabBar,
           tabBarLabel:
             translation.core &&
             translation.core.headers.bottomToolBar.Environments,
@@ -83,9 +91,7 @@ function BottomTabs() {
         component={Settings}
         options={{
           headerShown: false,
-          tabBarIcon: ({size}) => (
-            <TabBarIcon source={icons.buttons.bottomTabs[3]} size={size} />
-          ),
+          tabBarIcon: settingsTabBar,
           tabBarLabel:
             translation.core && translation.core.headers.bottomToolBar.Settings,
         }}

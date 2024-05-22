@@ -1,7 +1,14 @@
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import ModalSelector from 'react-native-modal-selector';
-import {overlayStyles} from '../../../core/constants/Styles';
+import {
+  modalOverlayStyle,
+  modalSelectorCancelStyle,
+  modalSelectorCancelTextStyle,
+  modalSelectorOptionContainerStyle,
+  modalSelectorOptionTextStyle,
+  overlayStyles,
+} from '../../../core/constants/Styles';
 import {languageNames} from '../../../core/constants/Misc';
 import {useTranslation} from '../../../core/constants/Locales/TranslationContext';
 
@@ -15,7 +22,12 @@ const LanguageSelector = ({
   return (
     <View style={styles.formInput}>
       <ModalSelector
+        overlayStyle={modalOverlayStyle}
+        optionContainerStyle={modalSelectorOptionContainerStyle}
         style={styles.modalSelector}
+        optionTextStyle={modalSelectorOptionTextStyle}
+        cancelStyle={modalSelectorCancelStyle}
+        cancelTextStyle={modalSelectorCancelTextStyle}
         data={translation.settings && translation.settings.settings.languages}
         initValue={newUserOptions.preferredLanguage}
         onChange={language => {
@@ -25,8 +37,6 @@ const LanguageSelector = ({
         }}
         listType={'SCROLLVIEW'}
         animationType={'fade'}
-        overlayStyle={overlayStyles}
-        cancelText=""
       />
     </View>
   );

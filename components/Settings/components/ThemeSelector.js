@@ -1,7 +1,14 @@
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import ModalSelector from 'react-native-modal-selector';
-import {overlayStyles} from '../../../core/constants/Styles';
+import {
+  modalOverlayStyle,
+  modalSelectorCancelStyle,
+  modalSelectorCancelTextStyle,
+  modalSelectorOptionContainerStyle,
+  modalSelectorOptionTextStyle,
+  themeOptionContainerStyle,
+} from '../../../core/constants/Styles';
 import {useTheme} from '../../../core/constants/Theme/ContextManager';
 const ThemeSelector = ({
   setPageHasBeenEdited,
@@ -13,7 +20,12 @@ const ThemeSelector = ({
   return (
     <View style={styles.formInput}>
       <ModalSelector
+        overlayStyle={modalOverlayStyle}
+        optionContainerStyle={themeOptionContainerStyle}
         style={styles.modalSelector}
+        optionTextStyle={modalSelectorOptionTextStyle}
+        cancelStyle={modalSelectorCancelStyle}
+        cancelTextStyle={modalSelectorCancelTextStyle}
         data={translation.settings && translation.settings.settings.modes}
         initValue={
           newUserOptions.preferDarkMode
@@ -32,8 +44,6 @@ const ThemeSelector = ({
         }}
         listType={'SCROLLVIEW'}
         animationType={'fade'}
-        overlayStyle={overlayStyles}
-        cancelText=""
       />
     </View>
   );

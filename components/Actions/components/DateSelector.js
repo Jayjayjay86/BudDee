@@ -1,5 +1,5 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 const dateButton = require('../../../assets/images/buttons/date.png');
 const dateButtonDark = require('../../../assets/images/buttons/dark/date.png');
@@ -11,18 +11,8 @@ const DateSelector = ({
   actionObject,
   setActionObject,
   isDarkMode,
+  translation,
 }) => {
-  const buttons = () => {
-    if (isDarkMode) {
-      return {
-        1: dateButtonDark,
-      };
-    }
-
-    return {
-      1: dateButton,
-    };
-  };
   return (
     <View style={styles.formInput}>
       <Image style={styles.formImage} source={icons.others.core[2]} />
@@ -36,16 +26,21 @@ const DateSelector = ({
       </TouchableOpacity>
 
       <DatePicker
+        theme={isDarkMode ? 'dark' : 'light'}
+        title={'Action Performed On'}
+        cancelText={translation.core && translation.core.Cancel}
+        confirmText={translation.core && translation.core.Confirm}
+        locale={translation.core && translation.core.Code}
         mode="date"
         date={actionObject.date}
         style={styles.datePicker}
         modal
         open={datePickerVisible}
-        onConfirm={time => {
+        onConfirm={date => {
           setDatePickerVisible(false);
           setActionObject({
             ...actionObject,
-            time: time,
+            date: date,
           });
         }}
         onCancel={() => {

@@ -1,25 +1,67 @@
-import {StatusBar, StyleSheet, View} from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import {StatusBar, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {EnvironmentObject, PlantObject} from '../../../core/constants/Misc';
-import CreateEnv from '../../Plants/screens/modal/CreateEnv';
-import {useFocusEffect} from '@react-navigation/native';
-import {en, th} from '../../../core/constants/Locales';
-import {getOptions} from '../../../database/options';
-
 import NoEnvs from '../components/NoEnvs';
 import EnvList from '../components/EnvList';
 import {useTheme} from '../../../core/constants/Theme/ContextManager';
 import {useTranslation} from '../../../core/constants/Locales/TranslationContext';
+import ConfirmDeleteEnvironment from './modal/ConfirmDeleteEnvironment';
+import {
+  getEnvironments,
+  removeEnvironment,
+} from '../../../database/environments';
+import {useFocusEffect} from '@react-navigation/native';
+import {getPlants} from '../../../database/plants';
 
 const Environments = ({navigation}) => {
-  const {theme, isDarkMode} = useTheme();
+  const [isLoading, setIsLoading] = useState(true);
+  const {theme, icons, isDarkMode} = useTheme();
   const {translation} = useTranslation();
-
-  const [plants, setPlants] = useState([]);
-
-  const [showCreate, setShowCreate] = useState(false);
+  const [environments, setEnvironments] = useState([]);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [newPlantObject, setNewPlantObject] = useState(PlantObject);
   const [newEnvObject, setNewEnvObject] = useState(EnvironmentObject);
+  const [selectedEnvironment, setSelectedEnvironment] = useState({});
+  const [plants, setPlants] = useState();
+  const [selectedPlants, setSelectedPlants] = useState([]);
+  const HandleDeleteEnvironment = id => {
+    removeEnvironment(id);
+    setShowConfirm(false);
+    loadData();
+  };
+  async function loadData() {
+    setIsLoading(true);
+    try {
+      // Fetch all income and expense records
+      const environmentsArray = await getEnvironments();
+      setEnvironments(environmentsArray);
+    } catch (error) {
+      console.error('Error In Environments.js:', error);
+    }
+    try {
+      const plantsArray = await getPlants();
+      setPlants(plantsArray);
+    } catch (error) {
+      console.error('Error In envs.js:', error);
+    }
+    setIsLoading(false);
+  }
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      loadData();
+    }, []),
+  );
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <View
@@ -31,26 +73,39 @@ const Environments = ({navigation}) => {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={theme.background}
       />
-      {plants.length > 0 ? (
-        <EnvList />
+
+      {environments.length > 0 ? (
+        <EnvList
+          plants={plants}
+          selectedEnvironments={selectedEnvironment}
+          setSelectedEnvironment={setSelectedEnvironment}
+          showConfirm={showConfirm}
+          setShowConfirm={setShowConfirm}
+          navigation={navigation}
+          colors={theme}
+          icons={icons}
+          data={environments}
+          translation={translation}
+          selectedPlants={selectedPlants}
+          setSelectedPlants={setSelectedPlants}
+        />
       ) : (
         <NoEnvs
-          isDarkMode={isDarkMode}
+          icons={icons}
           colors={theme}
           translation={translation}
-          setShowCreate={setShowCreate}
+          navigation={navigation}
         />
       )}
-      <CreateEnv
-        isDarkMode={isDarkMode}
-        colors={theme}
+      <ConfirmDeleteEnvironment
+        theme={theme}
         translation={translation}
+        isVisible={showConfirm}
+        setIsVisible={setShowConfirm}
+        selectedEnvironment={selectedEnvironment}
         navigation={navigation}
-        isModalVisible={showCreate}
-        setIsModalVisible={setShowCreate}
-        setNewPlantObject={setNewPlantObject}
-        envObject={newEnvObject}
-        setEnvObject={setNewEnvObject}
+        icons={icons}
+        HandleDeleteEnvironment={HandleDeleteEnvironment}
       />
     </View>
   );
@@ -59,7 +114,7 @@ const Environments = ({navigation}) => {
 export default Environments;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {height: '100%'},
   display: {alignItems: 'center'},
   noplants: {width: 290, height: 540},
   arrow: {width: 50, height: 50},

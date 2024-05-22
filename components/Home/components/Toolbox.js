@@ -9,6 +9,7 @@ const Toolbox = ({icons, pressButton, translation, colors}) => {
   const toolBoxStyles = {
     borderBottomColor: colors.home.toolbox.borderColor,
     backgroundColor: colors.core.background,
+    elevation: 10,
   };
   const textColor = {color: colors.home.toolbox.textColor};
   return (
@@ -106,16 +107,17 @@ const styles = StyleSheet.create({
     borderBottomWidth: 7,
   },
   toolboxHeader: {fontFamily: 'Poppins-Regular', fontSize: 17},
-  icons: {marginLeft: 10, flexDirection: 'row', justifyContent: 'space-around'},
+  icons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
   icon: {
     padding: 10,
-    margin: 5,
+
     alignItems: 'center',
     justifyContent: 'center',
   },
   iconButton: {
-    padding: 10,
-    margin: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },

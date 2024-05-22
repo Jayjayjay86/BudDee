@@ -4217,6 +4217,11 @@ image-size@^1.0.2:
   dependencies:
     queue "6.0.2"
 
+immer@^6.0.3:
+  version "6.0.9"
+  resolved "https://registry.npmjs.org/immer/-/immer-6.0.9.tgz"
+  integrity sha512-SyCYnAuiRf67Lvk0VkwFvwtDoEiCMjeamnHvRfnVDyc7re1/rQrNxuL+jJ7lA3WvdC4uznrvbmm+clJ9+XXatg==
+
 import-fresh@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/import-fresh/-/import-fresh-2.0.0.tgz"
@@ -5178,6 +5183,16 @@ lodash.debounce@^4.0.8, lodash.debounce@4.0.8:
   version "4.0.8"
   resolved "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
   integrity sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==
+
+lodash.find@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.npmjs.org/lodash.find/-/lodash.find-4.6.0.tgz"
+  integrity sha512-yaRZoAV3Xq28F1iafWN1+a0rflOej93l1DQUejs3SZ41h2O9UJBoS9aueGjPDgAl4B6tPC0NuuchLKaDQQ3Isg==
+
+lodash.findindex@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.npmjs.org/lodash.findindex/-/lodash.findindex-4.6.0.tgz"
+  integrity sha512-9er6Ccz6sEST3bHFtUrCFWk14nE8cdL/RoW1RRDV1BxqN3qsmsT56L14jhfctAqhVPVcdJw4MRxEaVoAK+JVvw==
 
 lodash.merge@^4.6.2:
   version "4.6.2"
@@ -6176,6 +6191,20 @@ react-native-modal-selector@^2.1.2:
   integrity sha512-+Cvoz/yNUFmfIkJ7xkmlLR2nhJOUhx00S6BPqp2Ruy8LkmaiNr7WMZ4BzsgzylyEgZ84Q+42HQ0v0QzJYobviA==
   dependencies:
     prop-types "^15.5.10"
+
+react-native-number-please@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.npmjs.org/react-native-number-please/-/react-native-number-please-1.0.5.tgz"
+  integrity sha512-XkbSv1o3zFyadnpU9KmcW18nvM/kPgr2cirRHFEZsvcEw9rjWTe57HFD/7NeNSXvTYOd7srtuh0Cs4f9hkmWUw==
+  dependencies:
+    immer "^6.0.3"
+    lodash.find "^4.6.0"
+    lodash.findindex "^4.6.0"
+
+react-native-numberpicker@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.npmjs.org/react-native-numberpicker/-/react-native-numberpicker-0.0.5.tgz"
+  integrity sha512-sxXfBIsPlCqoxb0nIOVy3ff4H3ay+smNY8OkbBxgZbuoQS4m6TNQgnBy8mc6OooLOUpAWJh48VbmxjPjoeD7Xw==
 
 react-native-safe-area-context@^4.9.0, "react-native-safe-area-context@>= 3.0.0":
   version "4.9.0"

@@ -5,7 +5,9 @@ const Journal = ({translation, colors}) => {
   const todaysTasks = [];
   const textColor = {color: colors.home.journal.textColor};
 
-  const journalStyles = {backgroundColor: colors.core.background};
+  const journalStyles = {
+    backgroundColor: colors.core.background,
+  };
   return (
     <View style={[styles.journal, journalStyles]}>
       <Text style={[styles.heading, textColor]}>
@@ -33,7 +35,7 @@ const Journal = ({translation, colors}) => {
 export default Journal;
 
 const styles = StyleSheet.create({
-  journal: {padding: 10, margin: 5, height: '45%'},
+  journal: {padding: 10, margin: 5, height: '100%'},
   heading: {marginBottom: 20, fontFamily: 'Poppins-Regular', fontSize: 17},
   entry: {margin: 10},
   entryHeader: {fontFamily: 'Poppins-Regular'},

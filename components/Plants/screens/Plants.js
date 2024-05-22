@@ -1,27 +1,59 @@
-import {
-  Image,
-  StatusBar,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, {useState} from 'react';
+import {StatusBar, StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
 
 import NoPlants from '../components/NoPlants';
 import {useTheme} from '../../../core/constants/Theme/ContextManager';
 import {useTranslation} from '../../../core/constants/Locales/TranslationContext';
+import PlantsList from '../components/PlantsList';
+import {envData} from '../../../core/constants/dummy';
 
-const NoPlantsImage = require('../../../assets/images/no_plants.png');
-const arrowImage = require('../../../assets/images/arrow.png');
-const addPlantsButton = require('../../../assets/images/buttons/add_pots.png');
-
-const plantsData = [];
+import {getEnvironments} from '../../../database/environments';
+import {useFocusEffect} from '@react-navigation/native';
+import {getPlants} from '../../../database/plants';
 
 const Plants = ({navigation}) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false);
   const {theme, icons, isDarkMode} = useTheme();
   const {translation} = useTranslation();
+  const [environments, setEnvironments] = useState(envData);
   const [plants, setPlants] = useState([]);
+  const [selectedPlants, setSelectedPlants] = useState([]);
 
+  const HandleDeletePlants = id => {};
+
+  async function loadData() {
+    setIsLoading(true);
+    try {
+      const environmentsArray = await getEnvironments();
+      setEnvironments(environmentsArray);
+    } catch (error) {
+      console.error('Error In Plants.js:', error);
+    }
+    try {
+      const plantsArray = await getPlants();
+      setPlants(plantsArray);
+    } catch (error) {
+      console.error('Error In Plants.js:', error);
+    }
+    setIsLoading(false);
+  }
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+    }, []),
+  );
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
+    );
+  }
   return (
     <View
       style={[
@@ -33,13 +65,20 @@ const Plants = ({navigation}) => {
         backgroundColor={theme.background}
       />
       {plants.length > 0 ? (
-        <>
-          <Image style={styles.noplants} source={NoPlantsImage} />
-          <Image style={styles.arrow} source={arrowImage} />
-          <TouchableOpacity onPress={() => {}}>
-            <Image style={styles.addplants} source={addPlantsButton} />
-          </TouchableOpacity>
-        </>
+        <PlantsList
+          setConfirmDeleteVisible={setConfirmDeleteVisible}
+          HandleDeletePlants={HandleDeletePlants}
+          colors={theme}
+          environmentData={environments}
+          icons={icons}
+          navigation={navigation}
+          translation={translation}
+          confirmDeleteVisible={confirmDeleteVisible}
+          setSelectedPlants={setSelectedPlants}
+          selectedPlants={selectedPlants}
+          plants={plants}
+          setPlants={setPlants}
+        />
       ) : (
         <NoPlants
           colors={theme}

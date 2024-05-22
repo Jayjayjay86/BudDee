@@ -1,4 +1,5 @@
 import {CoreColor} from '../Color';
+
 export const light = {
   library: {
     textColor: CoreColor.darkest,
@@ -6,12 +7,16 @@ export const light = {
     backgroundColor: CoreColor.cream,
   },
   core: {
+    calculate: CoreColor.calculate,
+    delete: CoreColor.deleteRed,
+    lessCream: CoreColor.leastCream,
+    plantGreen: CoreColor.plantGreen,
     background: CoreColor.white,
     darkBorder: CoreColor.darkDarkest,
     lightBorder: CoreColor.lightBorder,
-    activityIndicator: CoreColor.darkGrey,
+    activityIndicator: CoreColor.greyDark,
     textColor: CoreColor.darkest,
-    white: CoreColor.white,
+    white: CoreColor.lessCream,
     primary: CoreColor.primary,
     bottomtabs: {
       backgroundColor: CoreColor.primary,
@@ -99,6 +104,9 @@ export const light = {
 export const dark = {
   library: {textColor: CoreColor.darkText},
   core: {
+    calculate: CoreColor.calculate,
+    delete: CoreColor.deleteRed,
+    plantGreen: CoreColor.plantGreen,
     background: CoreColor.darkBackground,
     darkBorder: CoreColor.darkDarkest,
     textColor: CoreColor.darkText,

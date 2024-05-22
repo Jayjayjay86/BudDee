@@ -1,9 +1,10 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import BottomToolBar from '../../../core/components/Headers/BottomToolBar';
 
 import {useTheme} from '../../../core/constants/Theme/ContextManager';
 import {useTranslation} from '../../../core/constants/Locales/TranslationContext';
+import BackToLibraryButton from '../components/BackToLibraryButton';
 
 const Checklist = ({navigation}) => {
   const {theme, icons, isDarkMode} = useTheme();
@@ -14,34 +15,50 @@ const Checklist = ({navigation}) => {
   const handleGoBack = () => {
     navigation.navigate('library');
   };
-
+  const textColor = {color: theme.library.textColor};
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: theme.core.background}]}>
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={theme.background}
+      />
       <ScrollView style={styles.scrollView}>
-        <View>
-          <Text style={styles.headerText}>
-            {translation.guides && translation.guides.checklist.HeaderText}
-          </Text>
-        </View>
+        <Text style={[styles.headerText, textColor]}>
+          {translation.guides && translation.guides.checklist.HeaderText}
+        </Text>
+
+        <BackToLibraryButton
+          colors={theme}
+          navigation={navigation}
+          icons={icons}
+          translation={translation}
+        />
+
         <View style={styles.groupContainer}>
           {translation.guides &&
             translation.guides.checklist.checklist.map((item, index) => (
               <View key={index} style={styles.listContainer}>
-                <Text style={styles.subHeaderText}>{item.subHeader}</Text>
+                <Text style={[styles.subHeaderText, textColor]}>
+                  {item.subHeader}
+                </Text>
                 {item?.list &&
                   item?.list.map((listItem, listItemIndex) => (
-                    <Text key={listItemIndex} style={styles.checkListItem}>
+                    <Text
+                      key={listItemIndex}
+                      style={[styles.checkListText, textColor]}>
                       {listItem}
                     </Text>
                   ))}
                 {item.subList && (
-                  <Text style={styles.subSubHeaderText}>
+                  <Text style={[styles.subSubHeaderText, textColor]}>
                     {item.subList.header}
                   </Text>
                 )}
                 {item.subList &&
                   item.subList.list.map((subListItem, subListItemIndex) => (
-                    <Text key={subListItemIndex} style={styles.checkListItem}>
+                    <Text
+                      key={subListItemIndex}
+                      style={[styles.checkListText, textColor]}>
                       {subListItem}
                     </Text>
                   ))}
@@ -50,10 +67,10 @@ const Checklist = ({navigation}) => {
         </View>
       </ScrollView>
       <View style={styles.instructionContainer}>
-        <Text style={styles.instruction}>
+        <Text style={[styles.instruction, textColor]}>
           {translation.core && translation.core.Next}
         </Text>
-        <Text style={styles.next}>
+        <Text style={[styles.next, textColor]}>
           {translation.guides && translation.guides.checklist.Next}
         </Text>
       </View>
@@ -76,7 +93,18 @@ const Checklist = ({navigation}) => {
 export default Checklist;
 
 const styles = StyleSheet.create({
-  checkListItem: {
+  container: {height: '100%'},
+  scrollView: {height: '91.7%'},
+  headerText: {
+    fontSize: 25,
+    fontFamily: 'Poppins-SemiBold',
+    margin: 10,
+    marginVertical: 0,
+    textAlign: 'center',
+    padding: 3,
+    marginTop: 5,
+  },
+  checkListText: {
     fontSize: 15,
     fontFamily: 'Poppins-Light',
     marginHorizontal: 15,
@@ -97,7 +125,7 @@ const styles = StyleSheet.create({
   linkText: {fontSize: 14, fontFamily: 'Poppins-Light', paddingHorizontal: 10},
   image: {width: 27, height: 27, marginHorizontal: 5},
   subHeaderText: {
-    fontSize: 15,
+    fontSize: 22,
     fontFamily: 'Poppins-SemiBold',
     margin: 10,
     marginBottom: 0,
@@ -105,22 +133,14 @@ const styles = StyleSheet.create({
     padding: 3,
   },
   subSubHeaderText: {
-    fontSize: 13,
-    fontFamily: 'Poppins-Bold',
+    fontSize: 15,
+    fontFamily: 'Poppins-SemiBold',
     margin: 10,
     marginBottom: 0,
     textAlign: 'justify',
     padding: 3,
   },
-  headerText: {
-    fontSize: 25,
-    fontFamily: 'Poppins-SemiBold',
-    margin: 10,
-    marginVertical: 0,
-    textAlign: 'center',
-    padding: 3,
-    marginTop: 5,
-  },
+
   contentLink: {margin: 5},
   contentLinks: {
     height: '69%',
@@ -128,5 +148,4 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     margin: 2,
   },
-  scrollView: {height: '91.7%'},
 });

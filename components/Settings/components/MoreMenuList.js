@@ -7,48 +7,8 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
-const activityIconImage = require('../../../assets/images/buttons/actions.png');
-const potLogIconImage = require('../../../assets/images/buttons/add_pots.png');
-const envLogIconImage = require('../../../assets/images/buttons/add_environments.png');
-const calcIconImage = require('../../../assets/images/buttons/calculators.png');
-const faqIconImage = require('../../../assets/images/buttons/faq.png');
-const chartImage = require('../../../assets/images/buttons/charts.png');
-const libraryImage = require('../../../assets/images/buttons/library.png');
-
-const activityIconImageDark = require('../../../assets/images/buttons/dark/actions.png');
-const potLogIconImageDark = require('../../../assets/images/buttons/dark/add_pots.png');
-const envLogIconImageDark = require('../../../assets/images/buttons/dark/add_environments.png');
-const calcIconImageDark = require('../../../assets/images/buttons/dark/calculators.png');
-const faqIconImageDark = require('../../../assets/images/buttons/dark/faq-food.png');
-const chartImageDark = require('../../../assets/images/buttons/dark/charts.png');
-const libraryImageDark = require('../../../assets/images/buttons/dark/library.png');
 
 const MoreMenuList = ({icons, colors, translation, handlePress, darkmode}) => {
-  const buttons = () => {
-    console.log(darkmode);
-    if (darkmode) {
-      return {
-        1: activityIconImageDark,
-        2: potLogIconImageDark,
-        3: envLogIconImageDark,
-        4: calcIconImageDark,
-        5: faqIconImageDark,
-        6: chartImageDark,
-        7: libraryImageDark,
-      };
-    }
-
-    return {
-      1: activityIconImage,
-      2: potLogIconImage,
-      3: envLogIconImage,
-      4: calcIconImage,
-      5: faqIconImage,
-      6: chartImage,
-      7: libraryImage,
-    };
-  };
-
   const menuItemStyle = {
     borderColor: colors.core.horizontalBreak,
   };
@@ -221,16 +181,16 @@ const styles = StyleSheet.create({
 
   topHeader: {marginTop: 2, fontFamily: 'Poppins-Light'},
   imageContainer: {
-    width: 45,
-    height: 45,
+    width: 55,
+    height: 55,
 
     borderRadius: 50,
     alignItems: 'center',
     justifyContent: 'center',
   },
   menuImage: {
-    width: 35,
-    height: 35,
+    width: 40,
+    height: 40,
   },
   arrowImage: {
     width: 15,
@@ -241,8 +201,8 @@ const styles = StyleSheet.create({
     height: 30,
   },
   faqImage: {
-    width: 27,
-    height: 27,
+    width: 35,
+    height: 35,
   },
   infoImage: {
     width: 20,

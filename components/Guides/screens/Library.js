@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {ScrollView, StatusBar, StyleSheet, View} from 'react-native';
 import React from 'react';
 import Header from '../../../core/components/Headers/Header';
 
@@ -17,23 +17,29 @@ const Library = ({navigation}) => {
 
   return (
     <View style={[styles.container, {backgroundColor: theme.core.background}]}>
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={theme.background}
+      />
       <Header
         icons={icons}
         colors={theme}
         navigation={navigation}
         message={translation.guides && translation.guides.library.HeaderText}
       />
-      <LibrarySubHeader
-        icons={icons}
-        colors={theme}
-        translation={translation}
-      />
-      <LibraryList
-        icons={icons}
-        translation={translation}
-        handleSelectGuide={handleSelectGuide}
-        colors={theme}
-      />
+      <ScrollView>
+        <LibrarySubHeader
+          icons={icons}
+          colors={theme}
+          translation={translation}
+        />
+        <LibraryList
+          icons={icons}
+          translation={translation}
+          handleSelectGuide={handleSelectGuide}
+          colors={theme}
+        />
+      </ScrollView>
     </View>
   );
 };

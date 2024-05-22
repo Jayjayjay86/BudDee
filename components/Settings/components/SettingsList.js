@@ -1,17 +1,46 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
 import LanguageSelector from './LanguageSelector';
-import TemperatureUnitSelector from './TemperatureUnitSelector';
-import DaySelector from './DaySelector';
+
 import ThemeSelector from './ThemeSelector';
+import ConfirmDeleteDatabase from '../screens/model/ConfirmDeleteDatabase';
+import {destroyAllStrains} from '../../../database/strains';
+import {destroyEnvironmentJournal} from '../../../database/environmentJournal';
+import {destroyOptions} from '../../../database/options';
+import {destroyEnvironments} from '../../../database/environments';
+import {destroyPlantJournal} from '../../../database/plantJournal';
+import {destroyPlants} from '../../../database/plants';
+import ViewStrains from '../../../core/components/Strain/modal/ViewStrains';
+import CreateStrain from '../../../core/components/Strain/modal/CreateStrain';
+import DatabaseOptions from './DatabaseOptions';
+import DatabaseSettings from './DatabaseSettings';
 
 const SettingsList = ({
+  icons,
   translation,
   colors,
   setPageHasBeenEdited,
   newUserOptions,
   setNewUserOptions,
+  navigation,
+  strains,
 }) => {
+  const [deleteStates, setDeleteStates] = useState({
+    strains: false,
+    plants: false,
+    options: false,
+    envs: false,
+    plantJournal: false,
+    envJournal: false,
+  });
+
   const backgroundColor = {
     backgroundColor: colors.settings.list.backgroundColor,
     color: colors.settings.list.textColor,
@@ -19,16 +48,21 @@ const SettingsList = ({
   const textColor = {
     color: colors.settings.list.textColor,
   };
+  const HandleConfirmDelete = () => {
+    destroyAllStrains();
+    destroyOptions();
+    destroyEnvironmentJournal();
+    destroyEnvironments();
+    destroyPlantJournal();
+    destroyPlants();
+  };
+  const [showStrainsWindow, setShowStrainsWindow] = useState(false);
+  const [showCreateStrainsWindow, setShowCreateStrainsWindow] = useState(false);
+  const [confirmDeleteDatabase, setConfirmDeleteDatabase] = useState(false);
+
+  const strainCreated = () => {};
   return (
-    <View style={styles.settingsList}>
-      <Text style={[styles.heading, textColor]}>
-        {translation.settings && translation.settings.settings.HeaderText}
-      </Text>
-      <View style={styles.optionRow}>
-        <Text style={[styles.optionTitle, textColor]}>
-          {translation.settings && translation.settings.settings.EraseAllData}
-        </Text>
-      </View>
+    <ScrollView style={styles.settingsList}>
       <Text style={[styles.heading, backgroundColor]}>
         {translation.settings && translation.settings.settings.GeneralSettings}
       </Text>
@@ -54,34 +88,49 @@ const SettingsList = ({
           setNewUserOptions={setNewUserOptions}
         />
       </View>
-      <View style={styles.optionCol}>
-        <Text style={[styles.optionTitle, textColor]}>
-          {translation.settings &&
-            translation.settings.settings.TemperatureUnits}
-        </Text>
-        <TemperatureUnitSelector
-          setPageHasBeenEdited={setPageHasBeenEdited}
-          translation={translation}
-          newUserOptions={newUserOptions}
-          setNewUserOptions={setNewUserOptions}
-        />
-      </View>
 
-      <Text style={[styles.heading, backgroundColor]}>
-        {translation.settings && translation.settings.settings.CalendarSettings}
-      </Text>
-      <View style={styles.optionCol}>
-        <Text style={[styles.optionTitle, textColor]}>
-          {translation.settings && translation.settings.settings.FirstDay}
-        </Text>
-        <DaySelector
-          setPageHasBeenEdited={setPageHasBeenEdited}
-          translation={translation}
-          newUserOptions={newUserOptions}
-          setNewUserOptions={setNewUserOptions}
-        />
-      </View>
-    </View>
+      <DatabaseSettings
+        translation={translation}
+        deleteStates={deleteStates}
+        setDeleteStates={setDeleteStates}
+        setShowStrainsWindow={setShowStrainsWindow}
+        icons={icons}
+        setConfirmDeleteDatabase={setConfirmDeleteDatabase}
+        colors={colors}
+      />
+
+      <ConfirmDeleteDatabase
+        isVisible={confirmDeleteDatabase}
+        setIsVisible={setConfirmDeleteDatabase}
+        translation={translation}
+        HandleConfirmDelete={HandleConfirmDelete}
+        theme={colors}
+        icons={icons}
+        navigation={navigation}
+        deleteStates={deleteStates}
+        setDeleteStates={setDeleteStates}
+      />
+      <CreateStrain
+        translation={translation}
+        colors={colors}
+        isModalVisible={showCreateStrainsWindow}
+        setIsModalVisible={setShowCreateStrainsWindow}
+        navigation={navigation}
+        icons={icons}
+        strainCreated={strainCreated}
+      />
+      <ViewStrains
+        translation={translation}
+        isVisible={showStrainsWindow}
+        setIsVisible={setShowStrainsWindow}
+        setShowCreateWindow={setShowCreateStrainsWindow}
+        HandleConfirm={() => {}}
+        theme={colors}
+        icons={icons}
+        navigation={navigation}
+        strains={strains}
+      />
+    </ScrollView>
   );
 };
 
@@ -93,7 +142,7 @@ const styles = StyleSheet.create({
   heading: {
     padding: 10,
     fontSize: 17,
-    fontFamily: 'Poppins-Light',
+    fontFamily: 'Poppins-SemiBold',
     height: 44,
   },
   optionRow: {
@@ -108,6 +157,15 @@ const styles = StyleSheet.create({
   },
   optionTitle: {
     fontSize: 17,
-    fontFamily: 'Poppins-Light',
+    fontFamily: 'Poppins-SemiBold',
   },
+  optionLinkText: {
+    fontSize: 17,
+    fontFamily: 'Poppins-SemiBold',
+    flex: 1,
+  },
+  link: {flexDirection: 'row', alignItems: 'center'},
+  arrowImage: {width: 12, height: 12},
+  databaseOptions: {flexDirection: 'row', margin: 15, alignItems: 'center'},
+  databaseOptionText: {flex: 1},
 });

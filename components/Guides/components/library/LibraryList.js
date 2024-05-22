@@ -1,11 +1,4 @@
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 
 const LibraryList = ({icons, translation, handleSelectGuide, colors}) => {
@@ -34,6 +27,10 @@ const LibraryList = ({icons, translation, handleSelectGuide, colors}) => {
       icons.buttons.guides.library[13],
       icons.buttons.guides.library[14],
       icons.buttons.guides.library[15],
+      icons.buttons.guides.library[16],
+      icons.buttons.guides.library[17],
+      icons.buttons.guides.library[18],
+      icons.buttons.guides.library[19],
     ];
     return iconList[index];
   };
@@ -43,7 +40,7 @@ const LibraryList = ({icons, translation, handleSelectGuide, colors}) => {
         {translation.guides && translation.guides.library.TapMore}
       </Text>
 
-      <ScrollView style={[styles.contentLinks, borderColorStyle]}>
+      <View style={[styles.contentLinks, borderColorStyle]}>
         {translation.guides &&
           translation.guides.library.list.map((item, itemIndex) => (
             <View key={itemIndex} style={styles.contentLink}>
@@ -61,7 +58,7 @@ const LibraryList = ({icons, translation, handleSelectGuide, colors}) => {
               </TouchableOpacity>
             </View>
           ))}
-      </ScrollView>
+      </View>
     </View>
   );
 };
@@ -69,10 +66,12 @@ const LibraryList = ({icons, translation, handleSelectGuide, colors}) => {
 export default LibraryList;
 
 const styles = StyleSheet.create({
+  libraryList: {margin: 10, height: '100%'},
   instruction: {
-    marginLeft: 20,
-    fontFamily: 'Poppins-SemiBoldItalic',
-    fontSize: 12,
+    marginTop: 30,
+    alignSelf: 'center',
+    fontFamily: 'Poppins-BoldItalic',
+    fontSize: 14,
   },
   link: {
     flexDirection: 'row',
@@ -82,8 +81,12 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     borderBottomWidth: 1,
   },
-  linkText: {fontSize: 16, fontFamily: 'Poppins-Light', paddingHorizontal: 10},
-  image: {width: 27, height: 27, marginHorizontal: 5},
+  linkText: {
+    fontSize: 16,
+    fontFamily: 'Poppins-SemiBold',
+    paddingHorizontal: 10,
+  },
+  image: {width: 40, height: 40, marginRight: 15},
   subHeaderText: {
     fontSize: 13,
     fontFamily: 'Poppins-Light',
@@ -106,8 +109,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     borderWidth: 1,
     margin: 2,
-    width: '95%',
-    height: '64%',
+    paddingTop: 2,
   },
-  libraryList: {},
 });

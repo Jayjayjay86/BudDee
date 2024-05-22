@@ -8,112 +8,166 @@ const OtherDetailsSelector = ({
   envObject,
   setEnvObject,
 }) => {
-  const inputStyles = {borderColor: colors.envs.new.nameInputBorder};
   const textStyles = {color: colors.envs.new.nameInputBorder};
-  const checkboxColor = {
-    borderColor: colors.envs.new.borderColor,
-  };
-  const checkboxIconColor = {
-    borderColor: colors.envs.new.backgroundColor,
-  };
-  const checkboxBlack = {
-    fontFamily: 'Poppins-Regular',
-    color: colors.envs.new.textColor,
-  };
+
   const checkBoxStyles = {
     textDecorationLine: 'none',
   };
+
   return (
     <View style={styles.otherDetails}>
       <Text style={[styles.inputHeading, textStyles]}>
         {translation.environments &&
           translation.environments.addEnv.OtherDetails}
       </Text>
-      <View style={styles.formInput}>
-        <TextInput
-          onChange={height => {
-            setEnvObject({
-              ...envObject,
-              roomDetails: {...envObject.roomDetails, height: height},
-            });
-          }}
-          keyboardType="numeric"
-          placeholder={
-            translation.environments &&
-            translation.environments.addEnv.placeholder.Resting
-          }
-          style={styles.textInputTemp}
-        />
-      </View>
-      <View style={styles.formInput}>
-        <BouncyCheckbox
-          style={styles.checkbox}
-          size={25}
-          fillColor={colors.envs.new.fill}
-          unFillColor={colors.envs.new.unfill}
-          text={
-            translation.environments &&
-            translation.environments.addEnv.placeholder.Aircon
-          }
-          iconStyle={checkBoxStyles.icon}
-          innerIconStyle={checkBoxStyles.inner}
-          textStyle={checkBoxStyles.text}
-          onPress={isChecked => {
-            setEnvObject({
-              ...envObject,
-              roomDetails: {...envObject.roomDetails, aircon: isChecked},
-            });
-          }}
-        />
-      </View>
-      <View style={styles.formInput}>
-        <BouncyCheckbox
-          style={styles.checkbox}
-          size={25}
-          fillColor={colors.envs.new.fill}
-          unFillColor={colors.envs.new.unfill}
-          text={
-            translation.environments &&
-            translation.environments.addEnv.placeholder.Dehumidifier
-          }
-          iconStyle={checkBoxStyles.icon}
-          innerIconStyle={checkBoxStyles.inner}
-          textStyle={checkBoxStyles.text}
-          onPress={isChecked => {
-            setEnvObject({
-              ...envObject,
-              roomDetails: {
-                ...envObject.roomDetails,
-                dehumidifier: isChecked,
-              },
-            });
-          }}
-        />
-      </View>
-      <View style={styles.formInput}>
-        <BouncyCheckbox
-          style={styles.checkbox}
-          size={25}
-          fillColor={colors.envs.new.fill}
-          unFillColor={colors.envs.new.unfill}
-          text={
-            translation.environments &&
-            translation.environments.addEnv.placeholder.Sealed
-          }
-          iconStyle={checkBoxStyles.icon}
-          innerIconStyle={checkBoxStyles.inner}
-          textStyle={checkBoxStyles.text}
-          onPress={isChecked => {
-            setEnvObject({
-              ...envObject,
-              roomDetails: {
-                ...envObject.roomDetails,
-                dehumidifier: isChecked,
-              },
-            });
-          }}
-        />
-      </View>
+      {!envObject.length < 1 ? (
+        <>
+          <View style={styles.formInput}>
+            <BouncyCheckbox
+              style={styles.checkbox}
+              size={25}
+              fillColor={colors.envs.new.fill}
+              unFillColor={colors.envs.new.unfill}
+              text={
+                translation.environments &&
+                translation.environments.addEnv.placeholder.Aircon
+              }
+              iconStyle={checkBoxStyles.icon}
+              innerIconStyle={checkBoxStyles.inner}
+              textStyle={checkBoxStyles.text}
+              onPress={isChecked => {
+                setEnvObject({
+                  ...envObject,
+                  roomDetails: {...envObject.roomDetails, aircon: isChecked},
+                });
+              }}
+            />
+          </View>
+          <View style={styles.formInput}>
+            <BouncyCheckbox
+              style={styles.checkbox}
+              size={25}
+              fillColor={colors.envs.new.fill}
+              unFillColor={colors.envs.new.unfill}
+              text={
+                translation.environments &&
+                translation.environments.addEnv.placeholder.Dehumidifier
+              }
+              iconStyle={checkBoxStyles.icon}
+              innerIconStyle={checkBoxStyles.inner}
+              textStyle={checkBoxStyles.text}
+              onPress={isChecked => {
+                setEnvObject({
+                  ...envObject,
+                  roomDetails: {
+                    ...envObject.roomDetails,
+                    dehumidifier: isChecked,
+                  },
+                });
+              }}
+            />
+          </View>
+          <View style={styles.formInput}>
+            <BouncyCheckbox
+              style={styles.checkbox}
+              size={25}
+              fillColor={colors.envs.new.fill}
+              unFillColor={colors.envs.new.unfill}
+              text={
+                translation.environments &&
+                translation.environments.addEnv.placeholder.Sealed
+              }
+              iconStyle={checkBoxStyles.icon}
+              innerIconStyle={checkBoxStyles.inner}
+              textStyle={checkBoxStyles.text}
+              onPress={isChecked => {
+                setEnvObject({
+                  ...envObject,
+                  roomDetails: {
+                    ...envObject.roomDetails,
+                    dehumidifier: isChecked,
+                  },
+                });
+              }}
+            />
+          </View>
+        </>
+      ) : (
+        <>
+          <View style={styles.formInput}>
+            <BouncyCheckbox
+              isChecked={envObject.roomDetails.aircon}
+              style={styles.checkbox}
+              size={25}
+              fillColor={colors.envs.new.fill}
+              unFillColor={colors.envs.new.unfill}
+              text={
+                translation.environments &&
+                translation.environments.addEnv.placeholder.Aircon
+              }
+              iconStyle={checkBoxStyles.icon}
+              innerIconStyle={checkBoxStyles.inner}
+              textStyle={checkBoxStyles.text}
+              onPress={isChecked => {
+                setEnvObject({
+                  ...envObject,
+                  roomDetails: {...envObject.roomDetails, aircon: isChecked},
+                });
+              }}
+            />
+          </View>
+          <View style={styles.formInput}>
+            <BouncyCheckbox
+              isChecked={envObject.roomDetails.dehumidifer}
+              style={styles.checkbox}
+              size={25}
+              fillColor={colors.envs.new.fill}
+              unFillColor={colors.envs.new.unfill}
+              text={
+                translation.environments &&
+                translation.environments.addEnv.placeholder.Dehumidifier
+              }
+              iconStyle={checkBoxStyles.icon}
+              innerIconStyle={checkBoxStyles.inner}
+              textStyle={checkBoxStyles.text}
+              onPress={isChecked => {
+                setEnvObject({
+                  ...envObject,
+                  roomDetails: {
+                    ...envObject.roomDetails,
+                    dehumidifier: isChecked,
+                  },
+                });
+              }}
+            />
+          </View>
+          <View style={styles.formInput}>
+            <BouncyCheckbox
+              isChecked={envObject.roomDetails.sealed}
+              style={styles.checkbox}
+              size={25}
+              fillColor={colors.envs.new.fill}
+              unFillColor={colors.envs.new.unfill}
+              text={
+                translation.environments &&
+                translation.environments.addEnv.placeholder.Sealed
+              }
+              iconStyle={checkBoxStyles.icon}
+              innerIconStyle={checkBoxStyles.inner}
+              textStyle={checkBoxStyles.text}
+              onPress={isChecked => {
+                setEnvObject({
+                  ...envObject,
+                  roomDetails: {
+                    ...envObject.roomDetails,
+                    sealed: isChecked,
+                  },
+                });
+              }}
+            />
+          </View>
+        </>
+      )}
     </View>
   );
 };
@@ -156,14 +210,19 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
   },
-  inputText: {fontSize: 16, fontFamily: 'Poppins-Regular', margin: 5},
+
+  inputText: {
+    fontSize: 16,
+    fontFamily: 'Poppins-Regular',
+    margin: 5,
+  },
   inputTextAdditional: {fontSize: 13, fontFamily: 'Poppins-Regular', margin: 5},
   lightSelect: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },
-  inputHeading: {textAlign: 'center', marginTop: 50, marginVertical: 10},
+  inputHeading: {marginTop: 50, marginVertical: 10},
   measurementSelect: {
     flexDirection: 'row',
 

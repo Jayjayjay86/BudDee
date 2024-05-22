@@ -17,19 +17,18 @@ function App() {
   const [appIsReady, setAppIsReady] = useState(false);
   const [userOptions, setUserOptions] = useState(DefaultOptionsObject);
 
-  const pressAccept = () => {
+  const pressAccept = async () => {
     updateOptions({...userOptions, isAgreed: true});
-    prepare();
+    await prepare();
   };
   const pressDecline = () => {
-    updateOptions({...userOptions, isAgreed: true});
     prepare();
   };
   async function prepare() {
     setAppIsReady(false);
     try {
       const options = await getOptions();
-      console.log('crikey', options);
+
       if (options.length < 1) {
         await createOptions(DefaultOptionsObject);
         setUserOptions(DefaultOptionsObject);
@@ -55,7 +54,7 @@ function App() {
   }, []);
   const userTheme = userOptions.preferDarkMode ? 'dark' : 'light';
   const userTranslation = userOptions.preferredLanguage;
-  console.log('blimey', userTheme, userTranslation);
+
   return (
     <ThemeProvider userTheme={userTheme}>
       <TranslationProvider userTranslation={userTranslation}>

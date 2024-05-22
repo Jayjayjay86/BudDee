@@ -3,7 +3,7 @@ import React from 'react';
 const addPlantsButton = require('../../../assets/images/buttons/add_pots.png');
 const addPlantsButtonDark = require('../../../assets/images/buttons/dark/add_pots.png');
 
-const AddPlantButton = ({navigation, colors, isDarkMode}) => {
+const AddPlantButton = ({navigation, colors, isDarkMode, icons}) => {
   const buttonColors = {
     backgroundColor: colors.plants.button.backgroundColor,
     borderColor: colors.plants.button.borderColor,

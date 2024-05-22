@@ -1,50 +1,21 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import ModalSelector from 'react-native-modal-selector';
-import {actionPickerStyles} from '../../../core/constants/Styles';
-import {overlayStyles} from '../../../core/constants/Styles';
-
+import {
+  actionPickerStyles,
+  modalOverlayStyle,
+  modalSelectorCancelStyle,
+  modalSelectorCancelTextStyle,
+  modalSelectorOptionContainerStyle,
+  modalSelectorOptionTextStyle,
+} from '../../../core/constants/Styles';
+import {handleChangeAction} from '../../../core/constants/Misc';
 const ActionSelector = ({colors, setActionOptions, translation, icons}) => {
-  const handleChangeAction = option => {
-    switch (option.label) {
-      case 'Water':
-        setActionOptions('water');
-        break;
-      case 'Mix Nutrients':
-        setActionOptions('nutes');
-        break;
-      case 'Bug Report':
-        setActionOptions('nutes');
-        break;
-      case 'Repot':
-        setActionOptions('repot');
-        break;
-      case 'Trim':
-        setActionOptions('trim');
-        break;
-      case 'Defoliate':
-        setActionOptions('defoliate');
-        break;
-      case 'Train':
-        setActionOptions('defoliate');
-        break;
-      case 'Flush':
-        setActionOptions('flush');
-        break;
-      case 'Harvest':
-        setActionOptions('harvest');
-        break;
-      case 'Destroy':
-        setActionOptions('kill');
-        break;
-      default:
-        break;
-    }
-  };
   const actionPickerData = [
     {
       key: 0,
       label: 'Water',
+      icon: icons.buttons.guides.library[10],
       component: (
         <View style={actionPickerStyles.pickerViewStyle}>
           <Image
@@ -57,24 +28,11 @@ const ActionSelector = ({colors, setActionOptions, translation, icons}) => {
         </View>
       ),
     },
-    {
-      key: 1,
-      label: 'Mix Nutrients',
-      component: (
-        <View style={actionPickerStyles.pickerViewStyle}>
-          <Image
-            style={actionPickerStyles.pickerImageStyle}
-            source={icons.buttons.guides.others[4]}
-          />
-          <Text style={actionPickerStyles.pickerTextStyle}>
-            {translation.actions && translation.actions.newAction.MixNutes}
-          </Text>
-        </View>
-      ),
-    },
+
     {
       key: 2,
       label: 'Bug Report',
+      icon: icons.buttons.guides.library[13],
       component: (
         <View style={actionPickerStyles.pickerViewStyle}>
           <Image
@@ -90,6 +48,7 @@ const ActionSelector = ({colors, setActionOptions, translation, icons}) => {
     {
       key: 3,
       label: 'Repot',
+      icon: icons.buttons.guides.library[5],
       component: (
         <View style={actionPickerStyles.pickerViewStyle}>
           <Image
@@ -106,6 +65,7 @@ const ActionSelector = ({colors, setActionOptions, translation, icons}) => {
     {
       key: 5,
       label: 'Trim',
+      icon: icons.buttons.guides.library[6],
       component: (
         <View style={actionPickerStyles.pickerViewStyle}>
           <Image
@@ -121,6 +81,7 @@ const ActionSelector = ({colors, setActionOptions, translation, icons}) => {
     {
       key: 6,
       label: 'Train',
+      icon: icons.buttons.guides.library[10],
       component: (
         <View style={actionPickerStyles.pickerViewStyle}>
           <Image
@@ -136,6 +97,7 @@ const ActionSelector = ({colors, setActionOptions, translation, icons}) => {
     {
       key: 7,
       label: 'Defoliate',
+      icon: icons.buttons.guides.library[11],
       component: (
         <View style={actionPickerStyles.pickerViewStyle}>
           <Image
@@ -151,6 +113,7 @@ const ActionSelector = ({colors, setActionOptions, translation, icons}) => {
     {
       key: 8,
       label: 'Flush',
+      icon: icons.buttons.guides.library[8],
       component: (
         <View style={actionPickerStyles.pickerViewStyle}>
           <Image
@@ -166,6 +129,7 @@ const ActionSelector = ({colors, setActionOptions, translation, icons}) => {
     {
       key: 9,
       label: 'Harvest',
+      icon: icons.buttons.guides.library[12],
       component: (
         <View style={actionPickerStyles.pickerViewStyle}>
           <Image
@@ -181,6 +145,7 @@ const ActionSelector = ({colors, setActionOptions, translation, icons}) => {
     {
       key: 10,
       label: 'Kill',
+      icon: icons.buttons.guides.library[7],
       component: (
         <View style={actionPickerStyles.pickerViewStyle}>
           <Image
@@ -202,7 +167,13 @@ const ActionSelector = ({colors, setActionOptions, translation, icons}) => {
       />
       <View>
         <ModalSelector
+          overlayStyle={modalOverlayStyle}
+          optionContainerStyle={modalSelectorOptionContainerStyle}
           style={styles.modalSelector}
+          optionTextStyle={modalSelectorOptionTextStyle}
+          cancelStyle={modalSelectorCancelStyle}
+          cancelTextStyle={modalSelectorCancelTextStyle}
+          cancelText={translation.core && translation.core.Cancel}
           data={actionPickerData}
           initValue={
             translation.actions && translation.actions.newAction.SelectAction
@@ -212,8 +183,6 @@ const ActionSelector = ({colors, setActionOptions, translation, icons}) => {
           }}
           listType={'SCROLLVIEW'}
           animationType={'fade'}
-          overlayStyle={overlayStyles}
-          cancelText=""
         />
       </View>
     </View>
@@ -260,5 +229,5 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
   },
   actionPickerItem: {},
-  modalSelector: {borderBottomColor: 'black', borderBottomWidth: 1, flex: 1},
+  modalSelector: {flex: 1},
 });

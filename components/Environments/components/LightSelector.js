@@ -1,11 +1,57 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import ModalSelector from 'react-native-modal-selector';
-import {modalStyles} from '../../../core/constants/Styles';
+import {
+  lightsOptionContainerStyle,
+  modalOverlayStyle,
+  modalSelectorCancelStyle,
+  modalSelectorCancelTextStyle,
+  modalSelectorOptionContainerStyle,
+  modalSelectorOptionTextStyle,
+  modalStyles,
+} from '../../../core/constants/Styles';
+import AddLightButton from './AddLightButton';
+import {lightObject} from '../../../core/constants/Misc';
+import CurrentLightsDisplay from './CurrentLightsDisplay';
 
-const LightSelector = ({colors, translation, setEnvObject, envObject}) => {
+const LightSelector = ({
+  translation,
+  setEnvObject,
+  envObject,
+  colors,
+  icons,
+  navigation,
+}) => {
   const textStyles = {color: colors.envs.new.nameInputBorder};
   const inputStyles = {borderColor: colors.envs.new.nameInputBorder};
+
+  const [lightState, setLightState] = useState(lightObject);
+  const [lightsArray, setLightsArray] = useState([]);
+  const HandleRemoveLight = index => {
+    setLightsArray(prevState => prevState.filter((_, i) => i !== index));
+    setEnvObject(prevState => ({
+      ...prevState,
+      lights: prevState.lights.filter((_, i) => i !== index),
+    }));
+  };
+  const HandleAddLight = () => {
+    if (
+      lightState.name === '' ||
+      lightState.name === ' ' ||
+      lightState.wattage === '' ||
+      lightState.amount === '' ||
+      lightState.amount === '0'
+    ) {
+      return;
+    }
+    setLightsArray(prevState => [...prevState, lightState]);
+    setEnvObject(prevState => ({
+      ...prevState,
+      lights: [...prevState.lights, lightState],
+    }));
+    setLightState({wattage: '', amount: ''});
+  };
+
   return (
     <View style={styles.formInput}>
       <Text style={[styles.inputText, textStyles]}>
@@ -13,11 +59,14 @@ const LightSelector = ({colors, translation, setEnvObject, envObject}) => {
       </Text>
       <View style={styles.lightSelect}>
         <ModalSelector
-          selectTextStyle={modalStyles}
-          cancelButtonAccessible={false}
-          backdropPressToClose={true}
-          animationType="fade"
+          scrollEnabled={true}
+          overlayStyle={modalOverlayStyle}
+          optionContainerStyle={lightsOptionContainerStyle}
           style={styles.modalSelector}
+          optionTextStyle={modalSelectorOptionTextStyle}
+          cancelStyle={modalSelectorCancelStyle}
+          cancelTextStyle={modalSelectorCancelTextStyle}
+          animationType="fade"
           data={
             translation.environments
               ? translation.environments.addEnv.LightData
@@ -27,19 +76,16 @@ const LightSelector = ({colors, translation, setEnvObject, envObject}) => {
             translation.environments &&
             translation.environments.addEnv.placeholder.Light
           }
-          onChange={type => {
-            setEnvObject({
-              ...envObject,
-              lights: {...envObject.lights, type: type},
-            });
+          onChange={light => {
+            setLightState(prevState => ({...prevState, name: light.label}));
           }}
         />
         <TextInput
-          onChange={watts => {
-            setEnvObject({
-              ...envObject,
-              lights: {...envObject.lights, wattage: watts},
-            });
+          onChangeText={watts => {
+            setLightState(prevState => ({
+              ...prevState,
+              wattage: watts,
+            }));
           }}
           keyboardType="numeric"
           placeholder={
@@ -47,13 +93,14 @@ const LightSelector = ({colors, translation, setEnvObject, envObject}) => {
             translation.environments.addEnv.placeholder.Watts
           }
           style={[styles.textInputLights, inputStyles]}
+          value={lightState.wattage}
         />
         <TextInput
-          onChange={qty => {
-            setEnvObject({
-              ...envObject,
-              lights: {...envObject.lights, quantity: qty},
-            });
+          onChangeText={amount => {
+            setLightState(prevState => ({
+              ...prevState,
+              amount: amount,
+            }));
           }}
           keyboardType="numeric"
           placeholder={
@@ -61,8 +108,24 @@ const LightSelector = ({colors, translation, setEnvObject, envObject}) => {
             translation.environments.addEnv.placeholder.Quantity
           }
           style={[styles.textInputLights, inputStyles]}
+          value={lightState.amount}
         />
       </View>
+
+      <CurrentLightsDisplay
+        navigation={navigation}
+        colors={colors}
+        lightsArray={lightsArray}
+        setLightsArray={setLightsArray}
+        icons={icons}
+        HandleRemoveLight={HandleRemoveLight}
+      />
+
+      <AddLightButton
+        HandleAddLight={HandleAddLight}
+        icons={icons}
+        colors={colors}
+      />
     </View>
   );
 };
@@ -75,7 +138,6 @@ const styles = StyleSheet.create({
   textInput: {
     alignSelf: 'center',
     width: '90%',
-
     borderBottomWidth: 1,
     margin: 10,
   },
@@ -83,8 +145,8 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
     borderBottomWidth: 1,
     fontFamily: 'Poppins-Regular',
-    fontSize: 12,
-    minWidth: 60,
+    fontSize: 11,
+    minWidth: 55,
     textAlign: 'center',
   },
   textInputMeasurements: {
@@ -113,12 +175,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   inputHeading: {textAlign: 'center', marginTop: 50, marginVertical: 10},
-  measurementSelect: {
-    flexDirection: 'row',
-
-    justifyContent: 'space-evenly',
-  },
-  modalSelector: {width: 220},
+  modalSelector: {width: 180},
   otherDetails: {alignItems: 'center'},
   checkbox: {width: 140, marginVertical: 5},
 });

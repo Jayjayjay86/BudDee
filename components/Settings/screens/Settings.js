@@ -1,17 +1,22 @@
-import {View, StyleSheet, ToastAndroid} from 'react-native';
-import React, {useState} from 'react';
+import {View, StyleSheet, ToastAndroid, Text} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
 
-import {updateOptions} from '../../../database/options';
+import {getOptions, updateOptions} from '../../../database/options';
 
 import SettingsHeader from '../components/SettingsHeader';
 import SettingsList from '../components/SettingsList';
 import {useTheme} from '../../../core/constants/Theme/ContextManager';
 import {useTranslation} from '../../../core/constants/Locales/TranslationContext';
 
-export default function Settings({route}) {
+import {useFocusEffect} from '@react-navigation/native';
+import {getStrains} from '../../../database/strains';
+
+export default function Settings({navigation, route}) {
+  const [isLoading, setIsLoading] = useState(true);
   const {theme, icons, isDarkMode} = useTheme();
   const {translation, setTranslation} = useTranslation();
-
+  const [strains, setStrains] = useState([]);
+  const [options, setOptions] = useState([]);
   const [newUserOptions, setNewUserOptions] = useState({});
 
   const [pageHasBeenEdited, setPageHasBeenEdited] = useState(false);
@@ -25,7 +30,41 @@ export default function Settings({route}) {
       setPageHasBeenEdited(false);
     } catch (error) {}
   };
+  async function loadData() {
+    setIsLoading(true);
 
+    try {
+      const optionsData = await getOptions();
+      setOptions(optionsData);
+    } catch (error) {
+      console.error('Error preparing settings:', error);
+    }
+
+    try {
+      const strainsArray = await getStrains();
+      console.log(strainsArray);
+      setStrains(strainsArray);
+    } catch (error) {
+      console.error('Error In Settings.js:', error);
+    }
+    setIsLoading(false);
+  }
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+    }, []),
+  );
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
+    );
+  }
   return (
     <View style={[styles.container, {backgroundColor: theme.core.background}]}>
       <SettingsHeader
@@ -35,12 +74,15 @@ export default function Settings({route}) {
         HandleSaveOptions={HandleSaveOptions}
       />
       <SettingsList
+        strains={strains}
         isDarkMode={isDarkMode}
         translation={translation}
         setPageHasBeenEdited={setPageHasBeenEdited}
         newUserOptions={newUserOptions}
         setNewUserOptions={setNewUserOptions}
         colors={theme}
+        navigation={navigation}
+        icons={icons}
       />
     </View>
   );
@@ -64,7 +106,7 @@ const styles = StyleSheet.create({
     right: 20,
   },
   saveButtonText: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Poppins-Bold',
     fontSize: 19,
     color: 'rgba(250,240,250,1)',
   },
@@ -80,7 +122,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(200,200,200,0.8)',
     padding: 10,
     fontSize: 17,
-    fontFamily: 'Poppins-Light',
+    fontFamily: 'Poppins-Bold',
   },
   optionRow: {
     flexDirection: 'row',
@@ -94,7 +136,7 @@ const styles = StyleSheet.create({
   },
   optionTitle: {
     fontSize: 17,
-    fontFamily: 'Poppins-Light',
+    fontFamily: 'Poppins-Bold',
     color: 'rgba(1,1,1,1)',
   },
 });

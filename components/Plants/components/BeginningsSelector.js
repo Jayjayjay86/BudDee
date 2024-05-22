@@ -1,8 +1,16 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import ModalSelector from 'react-native-modal-selector';
+import {
+  beginningsOptionContainerStyle,
+  modalOverlayStyle,
+  modalSelectorCancelStyle,
+  modalSelectorCancelTextStyle,
+  modalSelectorOptionContainerStyle,
+  modalSelectorOptionTextStyle,
+} from '../../../core/constants/Styles';
 
-const BeginningsSelector = ({colors, translation, setNewPlantObject}) => {
+const BeginningsSelector = ({colors, translation, setPlantObject}) => {
   const textStyles = {color: colors.plants.new.textColor};
   return (
     <View style={styles.inputContainer}>
@@ -10,15 +18,21 @@ const BeginningsSelector = ({colors, translation, setNewPlantObject}) => {
         {translation.plants && translation.plants.addPlant.PlantBegan}
       </Text>
       <ModalSelector
+        overlayStyle={modalOverlayStyle}
+        optionContainerStyle={modalSelectorOptionContainerStyle}
         style={styles.modalSelector}
+        optionTextStyle={modalSelectorOptionTextStyle}
+        cancelStyle={modalSelectorCancelStyle}
+        cancelTextStyle={modalSelectorCancelTextStyle}
+        cancelText={translation.core && translation.core.Cancel}
         data={translation.plants && translation.plants.addPlant.beginningsData}
         initValue={
           translation.plants && translation.plants.addPlant.placeholder.Select
         }
         onChange={type => {
-          setNewPlantObject(prevState => ({
+          setPlantObject(prevState => ({
             ...prevState,
-            fromType: type,
+            fromType: type.key,
           }));
         }}
       />
@@ -32,7 +46,7 @@ const styles = StyleSheet.create({
   container: {flexDirection: 'column', height: '100%'},
   form: {flex: 1},
   inputText: {fontSize: 14, fontFamily: 'Poppins-Regular', margin: 5},
-  modalSelector: {margin: 15},
+  modalSelector: {marginHorizontal: 15},
   modalSelectorPhase: {marginVertical: 10},
   phaseContainer: {},
   phaseSelect: {},

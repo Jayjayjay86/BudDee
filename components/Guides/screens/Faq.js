@@ -1,4 +1,4 @@
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StatusBar, StyleSheet, View} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {en, th} from '../../../core/constants/Locales';
 import {getOptions} from '../../../database/options';
@@ -15,6 +15,10 @@ const Faq = ({navigation}) => {
 
   return (
     <View style={[styles.container, {backgroundColor: theme.core.background}]}>
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={theme.background}
+      />
       <Header
         icons={icons}
         colors={theme}

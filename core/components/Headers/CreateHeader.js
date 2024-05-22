@@ -24,6 +24,6 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginHorizontal: 10,
     marginTop: 5,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Poppins-Regular',
   },
 });

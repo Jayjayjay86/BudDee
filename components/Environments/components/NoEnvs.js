@@ -1,28 +1,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-const NoEnvsImage = require('../../../assets/images/no_envs.png');
-const arrowImage = require('../../../assets/images/arrow.png');
-const addEnvsButton = require('../../../assets/images/buttons/add_environments.png');
-const NoEnvsImageDark = require('../../../assets/images/no_envsDark.png');
-const arrowImageDark = require('../../../assets/images/arrow.png');
-const addEnvsButtonDark = require('../../../assets/images/buttons/dark/add_environments.png');
 
-const NoEnvs = ({isDarkMode, translation, setShowCreate, colors}) => {
-  const buttons = () => {
-    if (isDarkMode) {
-      return {
-        1: NoEnvsImageDark,
-        2: arrowImageDark,
-        3: addEnvsButtonDark,
-      };
-    }
-
-    return {
-      1: NoEnvsImage,
-      2: arrowImage,
-      3: addEnvsButton,
-    };
-  };
+const NoEnvs = ({icons, translation, navigation, colors}) => {
   const buttonColors = {
     backgroundColor: colors.envs.button.backgroundColor,
     borderColor: colors.envs.button.borderColor,
@@ -30,7 +9,7 @@ const NoEnvs = ({isDarkMode, translation, setShowCreate, colors}) => {
   return (
     <View style={styles.container}>
       <View style={styles.display}>
-        <Image style={styles.noplants} source={buttons()[1]} />
+        <Image style={styles.noplants} source={icons.image[4]} />
         <Text style={styles.nopeText}>
           {translation.environments &&
             translation.environments.environments.NoEnv}
@@ -41,13 +20,13 @@ const NoEnvs = ({isDarkMode, translation, setShowCreate, colors}) => {
         </Text>
       </View>
       <View style={styles.button}>
-        <Image style={styles.arrow} source={buttons()[2]} />
+        <Image style={styles.arrow} source={icons.image[0]} />
         <TouchableOpacity
           onPress={() => {
-            setShowCreate(true);
+            navigation.navigate('add_envs');
           }}>
           <View style={[styles.imageBox, buttonColors]}>
-            <Image style={styles.addplants} source={buttons()[3]} />
+            <Image style={styles.addplants} source={icons.others.misc[1]} />
           </View>
         </TouchableOpacity>
       </View>

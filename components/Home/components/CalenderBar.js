@@ -1,94 +1,70 @@
 import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import CalenderStrip from 'react-native-scrollable-calendar-strip';
+import moment from 'moment';
 
-// const markedDatesFunc = date => {
-//   if (date.isoWeekday() === 4) {
-//     return {
-//       dots: [
-//         {
-//           color: '',
-//           selectedColor: '',
-//         },
-//       ],
-//     };
-//   }
+const CalenderBar = ({
+  journal,
+  setSelectedDate,
+  translation,
+  colors,
+  handlePressDate,
+}) => {
+  const markedDatesArray = [
+    {
+      id: 0,
+      action: {type: '', title: '', time_taken: '', otherData: ''},
+      date: new Date(),
 
-//   if (date.isoWeekday() === 6) {
-//     return {
-//       lines: [
-//         {
-//           color: '',
-//           selectedColor: '',
-//         },
-//       ],
-//     };
-//   }
-//   return {};
-// };
-// const datesWhitelist = [
-//   new Date(),
+      dots: [
+        {
+          color: colors.home.toolbox.textColor,
+          selectedColor: colors.home.calenderbar.borderColor,
+        },
+      ],
+    },
+  ];
 
-//   {
-//     start: new Date(),
-//     end: new Date(),
-//   },
-// ];
-// const markedDatesArray = [
-//   {
-//     date: new Date(),
-//     dots: [
-//       {
-//         color: '',
-//         selectedColor: '',
-//       },
-//     ],
-//   },
-//   {
-//     date: new Date(),
-//     lines: [
-//       {
-//         color: '',
-//         selectedColor: '',
-//       },
-//     ],
-//   },
-// ];
-
-const CalenderBar = ({translation, colors}) => {
   const [isCalendarLoaded, setIsCalendarLoaded] = useState(false);
   const calenderStyles = {
     backgroundColor: colors.home.toolbox.backgroundColor,
     borderColor: colors.home.calenderbar.borderColor,
   };
   const textColor = {color: colors.home.toolbox.textColor};
-  const dateStyle = {fontFamily: 'Poppins-Bold', fontSize: 13};
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsCalendarLoaded(true);
-    }, 500); // Adjust the delay time as needed
+  const dateStyle = {fontFamily: 'Poppins-Bold', fontSize: 9};
+  const headerStyle = {color: colors.home.toolbox.textColor, fontSize: 13};
+  const innerStyle = {flex: 1, height: 200};
 
-    return () => clearTimeout(timer); // Cleanup the timer on unmount
+  useLayoutEffect(() => {
+    setIsCalendarLoaded(true);
   }, []);
   return (
     <View style={[styles.calender, calenderStyles]}>
       {isCalendarLoaded ? (
-        <>
-          <Text style={[styles.heading, textColor]}>
-            {translation.home && translation.home.calender.Header}
-          </Text>
-          <CalenderStrip
-            style={styles.calenderStrip}
-            scrollable={true}
-            innerStyle={[]}
-            calendarHeaderStyle={{
-              color: colors.home.toolbox.textColor,
-            }}
-            dateNameStyle={dateStyle}
-            // datesWhitelist={datesWhitelist}
-            // markedDates={markedDatesArray}
-          />
-        </>
+        <CalenderStrip
+          onDateSelected={date => {
+            try {
+              const newDate = moment().toDate(date);
+
+              setSelectedDate(new Date(newDate));
+              handlePressDate(new Date(newDate));
+            } catch (error) {
+              console.log(error);
+            }
+          }}
+          style={styles.calenderStrip}
+          innerStyle={innerStyle}
+          weekendDateNameStyle={{color: colors.home.toolbox.textColor}}
+          weekendDateNumberStyle={{color: colors.home.toolbox.textColor}}
+          markedDatesStyle={{
+            color: colors.home.toolbox.textColor,
+          }}
+          scrollable={true}
+          calendarHeaderStyle={headerStyle}
+          dateNameStyle={dateStyle}
+          // datesWhitelist={datesWhitelist}
+          markedDates={markedDatesArray}
+        />
       ) : (
         <ActivityIndicator
           size="large"
@@ -103,12 +79,9 @@ export default CalenderBar;
 
 const styles = StyleSheet.create({
   calender: {
-    padding: 12,
-    height: 150,
-    width: '100%',
     borderBottomWidth: 7,
     borderRadius: 2,
   },
-  calenderStrip: {flex: 1},
-  heading: {marginBottom: 20, fontFamily: 'Poppins-Regular', fontSize: 17},
+  calenderStrip: {height: 100, marginHorizontal: 5},
+  heading: {margin: 15, fontFamily: 'Poppins-Light', fontSize: 15},
 });

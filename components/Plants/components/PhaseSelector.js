@@ -1,14 +1,9 @@
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import DatePicker from 'react-native-date-picker';
-import ModalSelector from 'react-native-modal-selector';
+
+import VegBox from './VegBox';
+import FlowerBox from './FlowerBox';
+import HangBox from './HangBox';
 
 const vegBadge = require('../../../assets/images/badges/veg.png');
 const flowerBadge = require('../../../assets/images/badges/flower.png');
@@ -19,12 +14,14 @@ const PhaseSelector = ({
   translation,
   setDisplayPhase,
   displayPhase,
-  setNewPlantObject,
+  setPlantObject,
   setvegDatePickerVisible,
-  newPlantObject,
+  plantObject,
   vegDatePickerVisible,
+  isDarkMode,
 }) => {
   const textStyles = {color: colors.plants.new.textColor};
+
   return (
     <View style={styles.phaseContainer}>
       <Text style={[styles.inputText, textStyles]}>
@@ -39,7 +36,7 @@ const PhaseSelector = ({
                 flower: false,
                 veg: !prevstate.veg,
               }));
-              setNewPlantObject(prevState => ({
+              setPlantObject(prevState => ({
                 ...prevState,
                 currentPhase: 'veg',
               }));
@@ -58,7 +55,7 @@ const PhaseSelector = ({
                 hang: false,
                 flower: !prevstate.flower,
               }));
-              setNewPlantObject(prevState => ({
+              setPlantObject(prevState => ({
                 ...prevState,
                 currentPhase: 'flower',
               }));
@@ -77,7 +74,7 @@ const PhaseSelector = ({
                 flower: false,
                 hang: !prevstate.hang,
               }));
-              setNewPlantObject(prevState => ({
+              setPlantObject(prevState => ({
                 ...prevState,
                 currentPhase: 'hang',
               }));
@@ -90,272 +87,39 @@ const PhaseSelector = ({
             </View>
           </TouchableOpacity>
         </View>
+
         {displayPhase.veg && (
-          <View style={styles.phaseBox}>
-            <Text style={[styles.phaseHeader, textStyles]}>
-              {translation.plants && translation.plants.addPlant.VegState}
-            </Text>
-            <View style={styles.phaseInput}>
-              <Text style={[styles.formText, textStyles]}>
-                {translation.plants && translation.plants.addPlant.BeganOn}
-              </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  setvegDatePickerVisible(prevState => !prevState);
-                }}>
-                <Text style={[styles.dateMarker, textStyles]}>
-                  {newPlantObject.startOn.toLocaleDateString()}
-                </Text>
-              </TouchableOpacity>
-
-              <DatePicker
-                mode="date"
-                date={newPlantObject.startOn}
-                style={styles.datePicker}
-                modal
-                open={vegDatePickerVisible}
-                onConfirm={date => {
-                  setvegDatePickerVisible(false);
-                  setNewPlantObject({
-                    ...newPlantObject,
-                    startOn: date,
-                  });
-                }}
-                onCancel={() => {
-                  setvegDatePickerVisible(false);
-                }}
-              />
-            </View>
-            <View style={styles.phaseInput}>
-              <Text style={[styles.formText, textStyles]}>
-                {translation.plants && translation.plants.addPlant.VegTime}
-              </Text>
-
-              <TextInput
-                keyboardType={'numeric'}
-                placeholder={
-                  translation.plants &&
-                  translation.plants.addPlant.placeholder.Days
-                }
-                style={styles.textInput}
-                onChangeText={text => {
-                  setNewPlantObject({...newPlantObject, veggingTime: text});
-                }}
-              />
-            </View>
-            <View style={styles.phaseInput}>
-              <Text style={[styles.formText, textStyles]}>
-                {translation.plants && translation.plants.addPlant.AmountPlants}
-              </Text>
-
-              <TextInput
-                keyboardType={'numeric'}
-                placeholder="0"
-                style={styles.textInput}
-                onChangeText={text => {
-                  setNewPlantObject({...newPlantObject, amount: text});
-                }}
-              />
-            </View>
-            <View style={styles.phaseInput}>
-              <Text style={[styles.formText, textStyles]}>
-                {translation.plants && translation.plants.addPlant.Medium}
-              </Text>
-              <ModalSelector
-                style={styles.modalSelectorPhase}
-                data={
-                  translation.plants && translation.plants.addPlant.mediumData
-                }
-                initValue={
-                  translation.plants &&
-                  translation.plants.addPlant.placeholder.SelectMedium
-                }
-                onChange={medium => {
-                  setNewPlantObject({
-                    ...newPlantObject,
-                    medium: medium,
-                  });
-                }}
-              />
-            </View>
-          </View>
+          <VegBox
+            isDarkMode={isDarkMode}
+            translation={translation}
+            setPlantObject={setPlantObject}
+            plantObject={plantObject}
+            setvegDatePickerVisible={setvegDatePickerVisible}
+            vegDatePickerVisible={vegDatePickerVisible}
+            colors={colors}
+          />
         )}
         {displayPhase.flower && (
-          <View style={styles.phaseBox}>
-            <Text style={[styles.phaseHeader, textStyles]}>
-              {translation.plants && translation.plants.addPlant.BloomingState}
-            </Text>
-            <View style={styles.phaseInput}>
-              <Text style={[styles.formText, textStyles]}>
-                {translation.plants &&
-                  translation.plants.addPlant.LightsChanged}
-              </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  setvegDatePickerVisible(prevState => !prevState);
-                }}>
-                <Text style={[styles.dateMarker, textStyles]}>
-                  {newPlantObject.startOn.toLocaleDateString()}
-                </Text>
-              </TouchableOpacity>
-
-              <DatePicker
-                mode="date"
-                date={newPlantObject.startOn}
-                style={styles.datePicker}
-                modal
-                open={vegDatePickerVisible}
-                onConfirm={date => {
-                  setvegDatePickerVisible(false);
-                  setNewPlantObject({
-                    ...newPlantObject,
-                    startOn: date,
-                  });
-                }}
-                onCancel={() => {
-                  setvegDatePickerVisible(false);
-                }}
-              />
-            </View>
-            <View style={styles.phaseInput}>
-              <Text style={[styles.formText, textStyles]}>
-                {translation.plants && translation.plants.addPlant.VegTime}
-              </Text>
-
-              <TextInput
-                keyboardType={'numeric'}
-                placeholder={
-                  translation.plants &&
-                  translation.plants.addPlant.placeholder.Days
-                }
-                style={styles.textInput}
-                onChangeText={text => {
-                  setNewPlantObject({...newPlantObject, veggingTime: text});
-                }}
-              />
-            </View>
-            <View style={styles.phaseInput}>
-              <Text style={[styles.formText, textStyles]}>
-                {translation.plants && translation.plants.addPlant.AmountPlants}
-              </Text>
-
-              <TextInput
-                keyboardType={'numeric'}
-                placeholder="0"
-                style={styles.textInput}
-                onChangeText={text => {
-                  setNewPlantObject({...newPlantObject, amount: text});
-                }}
-              />
-            </View>
-            <View style={styles.phaseInput}>
-              <Text style={[styles.formText, textStyles]}>
-                {translation.plants && translation.plants.addPlant.Medium}
-              </Text>
-              <ModalSelector
-                style={styles.modalSelectorPhase}
-                data={
-                  translation.plants && translation.plants.addPlant.mediumData
-                }
-                initValue={
-                  translation.plants &&
-                  translation.plants.addPlant.placeholder.SelectMedium
-                }
-                onChange={medium => {
-                  setNewPlantObject({
-                    ...newPlantObject,
-                    medium: medium,
-                  });
-                }}
-              />
-            </View>
-          </View>
+          <FlowerBox
+            isDarkMode={isDarkMode}
+            translation={translation}
+            setPlantObject={setPlantObject}
+            plantObject={plantObject}
+            setvegDatePickerVisible={setvegDatePickerVisible}
+            vegDatePickerVisible={vegDatePickerVisible}
+            colors={colors}
+          />
         )}
         {displayPhase.hang && (
-          <View style={styles.phaseBox}>
-            <Text style={[styles.phaseHeader, textStyles]}>
-              {translation.plants && translation.plants.addPlant.DryState}
-            </Text>
-            <View style={styles.phaseInput}>
-              <Text style={[styles.formText, textStyles]}>
-                {translation.plants && translation.plants.addPlant.LightsOut}
-              </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  setvegDatePickerVisible(prevState => !prevState);
-                }}>
-                <Text style={[styles.dateMarker, textStyles]}>
-                  {newPlantObject.startOn.toLocaleDateString()}
-                </Text>
-              </TouchableOpacity>
-
-              <DatePicker
-                mode="date"
-                date={newPlantObject.startOn}
-                style={styles.datePicker}
-                modal
-                open={vegDatePickerVisible}
-                onConfirm={date => {
-                  setvegDatePickerVisible(false);
-                  setNewPlantObject({
-                    ...newPlantObject,
-                    startOn: date,
-                  });
-                }}
-                onCancel={() => {
-                  setvegDatePickerVisible(false);
-                }}
-              />
-            </View>
-            <View style={styles.phaseInput}>
-              <Text style={[styles.formText, textStyles]}>
-                {translation.plants && translation.plants.addPlant.VegTime}
-              </Text>
-
-              <TextInput
-                keyboardType={'numeric'}
-                placeholder={
-                  translation.plants &&
-                  translation.plants.addPlant.placeholder.Days
-                }
-                style={styles.textInput}
-                onChangeText={text => {
-                  setNewPlantObject({...newPlantObject, veggingTime: text});
-                }}
-              />
-            </View>
-            <View style={styles.phaseInput}>
-              <Text style={[styles.formText, textStyles]}>
-                {translation.plants && translation.plants.addPlant.FlowerTime}
-              </Text>
-
-              <TextInput
-                keyboardType={'numeric'}
-                placeholder={
-                  translation.plants &&
-                  translation.plants.addPlant.placeholder.Days
-                }
-                style={styles.textInput}
-                onChangeText={text => {
-                  setNewPlantObject({...newPlantObject, veggingTime: text});
-                }}
-              />
-            </View>
-            <View style={styles.phaseInput}>
-              <Text style={[styles.formText, textStyles]}>
-                {translation.plants && translation.plants.addPlant.AmountPlants}
-              </Text>
-
-              <TextInput
-                keyboardType={'numeric'}
-                placeholder="0"
-                style={styles.textInput}
-                onChangeText={text => {
-                  setNewPlantObject({...newPlantObject, amount: text});
-                }}
-              />
-            </View>
-          </View>
+          <HangBox
+            isDarkMode={isDarkMode}
+            translation={translation}
+            setPlantObject={setPlantObject}
+            plantObject={plantObject}
+            setvegDatePickerVisible={setvegDatePickerVisible}
+            vegDatePickerVisible={vegDatePickerVisible}
+            colors={colors}
+          />
         )}
       </View>
     </View>

@@ -6,7 +6,7 @@ import LoadingLanguageSelector from './LoadingLanguageSelector';
 import {useTranslation} from '../../constants/Locales/TranslationContext';
 import {useTheme} from '../../constants/Theme/ContextManager';
 
-const BuddeeLogo = require('../../../assets/images/icon.png');
+
 
 const Disclaimer = ({
   pressAccept,
@@ -14,21 +14,22 @@ const Disclaimer = ({
   userOptions,
   setUserOptions,
 }) => {
-  const {theme, isDarkMode} = useTheme();
+  const {theme, icons, isDarkMode} = useTheme();
   const {translation, setTranslation} = useTranslation();
   return (
     <View style={styles.container}>
+      <Image style={styles.logo} source={icons.image[2]} />
       <Text style={styles.languageSelect}>
         {`${
           translation.core && translation.core.loading.disclaimer.DisplayPage
-        } ${userOptions.preferredLanguage ? 'English' : 'Thai'}`}
+        } ${userOptions.preferredLanguage}`}
       </Text>
       <LoadingLanguageSelector
         translation={translation}
         userOptions={userOptions}
         setUserOptions={setUserOptions}
       />
-      <Image style={styles.logo} source={BuddeeLogo} />
+
       <Text style={styles.header}>
         {translation.core && translation.core.loading.disclaimer.NotOlder}
       </Text>
@@ -71,31 +72,40 @@ const Disclaimer = ({
   );
 };
 const styles = StyleSheet.create({
-  container: {alignItems: 'center', backgroundColor: 'white'},
+  container: {
+    alignItems: 'center',
+    backgroundColor: 'white',
+    height: '100%',
+    margin: 10,
+  },
   logo: {width: 48, height: 48, marginTop: 10},
   header: {
-    marginTop: 30,
-    fontFamily: 'Poppins-Regular',
-    fontSize: 17,
+    marginTop: 15,
+    fontFamily: 'Poppins-Bold',
+    fontSize: 27,
   },
   request: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins-Light',
     fontSize: 17,
-    marginHorizontal: 15,
-    marginTop: 60,
+
+    margin: 15,
     textAlign: 'center',
   },
   disclaimer: {
     marginHorizontal: 15,
-    marginTop: 60,
+    marginTop: 10,
     marginBottom: 40,
   },
   disclaimerText: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'Poppins-Light',
     fontSize: 17,
     textAlign: 'center',
   },
-  termsLink: {fontFamily: 'Poppins-Bold', fontSize: 17, textAlign: 'center'},
+  termsLink: {
+    fontFamily: 'Poppins-SemiBoldItalic',
+    fontSize: 17,
+    textAlign: 'center',
+  },
   buttons: {marginTop: 80},
   acceptButton: {backgroundColor: 'rgba(0,100,0,0.5)', borderRadius: 20},
   declineButton: {marginTop: 5},
