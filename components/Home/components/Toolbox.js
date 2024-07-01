@@ -11,7 +11,7 @@ const Toolbox = ({icons, pressButton, translation, colors}) => {
     backgroundColor: colors.core.background,
     elevation: 10,
   };
-  const textColor = {color: colors.home.toolbox.textColor};
+  const textColor = {color: colors.core.textColor};
   return (
     <View style={[styles.toolbox, toolBoxStyles]}>
       <Text style={[styles.toolboxHeader, textColor]}>
@@ -21,7 +21,7 @@ const Toolbox = ({icons, pressButton, translation, colors}) => {
         <View style={styles.iconButton}>
           <TouchableOpacity
             onPress={() => {
-              pressButton('add_actions');
+              pressButton('add_strain');
             }}>
             <View style={[styles.imageContainer, buttonStyles]}>
               <Image style={styles.image} source={icons.buttons.toolbox[2]} />
@@ -31,7 +31,7 @@ const Toolbox = ({icons, pressButton, translation, colors}) => {
               {translation.home && translation.home.toolbox.New}
             </Text>
             <Text style={[styles.iconLabel, textColor]}>
-              {translation.home && translation.home.toolbox.Action}
+              {translation.settings && translation.settings.settings.Strains}
             </Text>
           </TouchableOpacity>
         </View>

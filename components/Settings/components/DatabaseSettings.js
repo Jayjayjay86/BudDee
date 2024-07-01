@@ -18,9 +18,12 @@ const DatabaseSettings = ({
   const textColor = {
     color: colors.settings.list.textColor,
   };
+  const headerTextColor = {
+    color: colors.settings.list.textColor,
+  };
   return (
     <View>
-      <Text style={[styles.heading, backgroundColor]}>
+      <Text style={[styles.heading, backgroundColor, headerTextColor]}>
         {translation.settings && translation.settings.settings.HeaderText}
       </Text>
       <TouchableOpacity
@@ -30,7 +33,7 @@ const DatabaseSettings = ({
         }}>
         <View style={styles.optionRow}>
           <Text style={[styles.optionLinkText, textColor]}>
-            View All Strains
+            {translation.settings && translation.settings.settings.ViewStrains}
           </Text>
           <Image style={styles.arrowImage} source={icons.others.core[1]} />
         </View>
@@ -48,6 +51,7 @@ const DatabaseSettings = ({
         </TouchableOpacity>
 
         <DatabaseOptions
+          translation={translation}
           deleteStates={deleteStates}
           setDeleteStates={setDeleteStates}
         />

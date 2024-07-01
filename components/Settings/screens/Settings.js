@@ -10,6 +10,7 @@ import {useTranslation} from '../../../core/constants/Locales/TranslationContext
 
 import {useFocusEffect} from '@react-navigation/native';
 import {getStrains} from '../../../database/strains';
+import LoadingIndicator from '../../../core/components/Loading/LoadingIndicator';
 
 export default function Settings({navigation, route}) {
   const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +21,12 @@ export default function Settings({navigation, route}) {
   const [newUserOptions, setNewUserOptions] = useState({});
 
   const [pageHasBeenEdited, setPageHasBeenEdited] = useState(false);
-
+  const deletedStrain = async () => {
+    await loadData();
+  };
+  const strainCreated = async () => {
+    await loadData();
+  };
   const HandleSaveOptions = async () => {
     try {
       updateOptions(newUserOptions).then(() => {
@@ -42,7 +48,7 @@ export default function Settings({navigation, route}) {
 
     try {
       const strainsArray = await getStrains();
-      console.log(strainsArray);
+
       setStrains(strainsArray);
     } catch (error) {
       console.error('Error In Settings.js:', error);
@@ -61,7 +67,7 @@ export default function Settings({navigation, route}) {
   if (isLoading) {
     return (
       <View style={styles.container}>
-        <Text style={styles.loadingText}>Loading...</Text>
+        <LoadingIndicator colors={theme} translation={translation} />
       </View>
     );
   }
@@ -72,8 +78,11 @@ export default function Settings({navigation, route}) {
         colors={theme}
         pageHasBeenEdited={pageHasBeenEdited}
         HandleSaveOptions={HandleSaveOptions}
+        translation={translation}
       />
       <SettingsList
+        deletedStrain={deletedStrain}
+        strainCreated={strainCreated}
         strains={strains}
         isDarkMode={isDarkMode}
         translation={translation}

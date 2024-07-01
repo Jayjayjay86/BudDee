@@ -1,11 +1,12 @@
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Image, StyleSheet} from 'react-native';
 import React from 'react';
 
 const loadingImage = require('../../../assets/images/splashscreen/transparent.png');
 
 const LoadingScreen = () => {
+  const backgroundColor = {backgroundColor: 'white'};
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, backgroundColor]}>
       <Image style={styles.image} source={loadingImage} resizeMode="contain" />
     </View>
   );

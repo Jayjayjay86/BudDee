@@ -7,7 +7,12 @@ import BottomToolBar from '../../../core/components/Headers/BottomToolBar';
 import DetailItems from '../components/DetailItems';
 const Plant = ({navigation, route}) => {
   const {plantData} = route.params ?? [];
+
+  const {plantJournalData} = route.params ?? [];
+  const parsedPlantJournal = JSON.parse(plantJournalData);
   const parsedPlantsArray = JSON.parse(plantData);
+
+  const [plantsJournal, setPlantsJournal] = useState(parsedPlantJournal);
   const [plantsData, setPlantsData] = useState(parsedPlantsArray);
   const {theme, icons, isDarkMode} = useTheme();
   const {translation} = useTranslation();
@@ -41,6 +46,7 @@ const Plant = ({navigation, route}) => {
         translation={translation}
         HandleDelete={HandleDelete}
         theme={theme}
+        plantsJournal={plantsJournal}
       />
 
       <BottomToolBar

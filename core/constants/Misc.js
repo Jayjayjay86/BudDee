@@ -1,4 +1,27 @@
 import {colorMode} from './Color';
+
+export const calculateDaysDifference = startDate => {
+  const start = new Date(startDate);
+  const today = new Date();
+  const timeDiff = today - start;
+  return Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+};
+
+export const plantsByBatch = plantsArray => {
+  try {
+    let returnable = {};
+    for (let i = 0; i < plantsArray.length; i++) {
+      const batchId = plantsArray[i].batchId;
+
+      if (!returnable[batchId]) {
+        returnable[batchId] = [];
+      }
+
+      returnable[batchId].push(plantsArray[i]);
+    }
+    return returnable;
+  } catch (error) {}
+};
 export const getAge = startLife => {
   const today = new Date();
   const millisecondsPerDay = 1000 * 60 * 60 * 24;
@@ -126,29 +149,19 @@ export const actionNames = (option, setActionOptions) => {
 };
 
 export const PlantObject = {
-  fromType: '',
-  startedLifeOn: new Date(),
   currentPhase: '',
-  strain: '',
-  veggingTime: '',
-  medium: '',
-  potSize: '',
+  strain: {},
   environmentId: '',
   batchId: '',
-  amount: '',
+  harvestedOn: new Date(),
 };
 export const EnvironmentObject = {
-  lights: [],
   name: '',
   lightHours: '',
   roomDetails: {
     length: '',
     height: '',
     width: '',
-    restingTemp: '',
-    sealed: false,
-    aircon: false,
-    dehumidifier: false,
   },
   plants: [],
   harvestedPlants: [],
@@ -159,7 +172,6 @@ export const DisplayObject = {
   hang: false,
 };
 export const DefaultOptionsObject = {
-  id: '',
   isAgreed: false,
   preferredLanguage: 'en',
   preferredFirstDay: 'Sunday',
@@ -167,7 +179,6 @@ export const DefaultOptionsObject = {
   preferDarkMode: false,
 };
 export const OptionsObject = {
-  id: '',
   isAgreed: false,
   preferredLanguage: '',
   preferredFirstDay: '',
@@ -175,24 +186,34 @@ export const OptionsObject = {
   preferDarkMode: false,
 };
 export const EnvironmentJournalObject = {
-  id: '',
   date: new Date(),
-  actions: [{actionId: '', plantId: '', activity: '', details: {}}],
-  plants: [{plantId: ''}],
-  batches: [{batchId: '', plantIds: [], environmentId: ''}],
+  envId: '',
+  actions: {
+    createdBatch: {amount: '', strainName: ''},
+    water: {amount: '', ph: '', ec: ''},
+    nutes: {amount: '', ph: '', ec: ''},
+  },
+  lastUpdated: new Date(),
+  lastUserUpdated: new Date(),
 };
 export const strainObject = {
-  id: '',
   strainName: '',
   seedBankName: '',
-  flowerTime: '',
+  floweringTime: '',
 };
-export const PlantActionObject = {
-  plantAmount: '',
-  actionsTaken: [
-    {actionId: '', plantId: '', batchId: '', activity: '', details: {}},
-  ],
-  plants: [{plantId: ''}],
-  batches: [{batchId: '', plantIds: [], environmentId: ''}],
+export const PlantJournalObject = {
+  date: new Date(),
+  startedLifeOn: '',
+  plantId: '',
+  envId: '',
+  currentPhase: '',
+  vegTime: 0,
+  flowerTime: 0,
+  hangTime: 0,
+  watered: [{date: new Date(), ph: '', ec: ''}],
+  lastUpdated: new Date(),
+  lastUserUpdated: new Date(),
+
+  previousLocations: [],
 };
 export const lightObject = {name: '', wattage: '', amount: ''};

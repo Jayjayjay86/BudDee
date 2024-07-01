@@ -1,15 +1,6 @@
 import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
 
-const phButton = require('../../../assets/images/buttons/ph.png');
-const ecButton = require('../../../assets/images/buttons/ec.png');
-const timeButton = require('../../../assets/images/buttons/time.png');
-const amountButton = require('../../../assets/images/buttons/amount.png');
-const phButtonDark = require('../../../assets/images/buttons/dark/ph.png');
-const ecButtonDark = require('../../../assets/images/buttons/dark/ec.png');
-const timeButtonDark = require('../../../assets/images/buttons/dark/time.png');
-const amountButtonDark = require('../../../assets/images/buttons/dark/amount.png');
-
 const ActionOptions = ({
   icons,
   isDarkMode,
@@ -91,14 +82,7 @@ const ActionOptions = ({
 export default ActionOptions;
 
 const styles = StyleSheet.create({
-  container: {},
-  form: {marginBottom: 20},
-  formInput: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 10,
-    marginRight: 30,
-  },
+  actionOptions: {},
   optionInput: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -112,21 +96,9 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Bold',
   },
   optionImage: {width: 40, height: 40, marginRight: 20},
-  formImage: {width: 40, height: 40, marginRight: 20},
+
   optionTextInput: {
     flex: 1,
     fontFamily: 'Poppins-Regular',
   },
-  textInput: {
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    flex: 1,
-    fontFamily: 'Poppins-Regular',
-  },
-  dateMarker: {
-    borderBottomColor: 'black',
-    fontFamily: 'Poppins-Regular',
-  },
-  actionPickerItem: {},
-  modalSelector: {borderBottomColor: 'black', borderBottomWidth: 1, flex: 1},
 });

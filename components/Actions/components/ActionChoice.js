@@ -6,7 +6,7 @@ const ActionChoice = ({setPlantOrEnvironment, translation}) => {
     <View style={styles.choiceContainer}>
       <TouchableOpacity
         onPress={() => {
-          setPlantOrEnvironment('plant');
+          setPlantOrEnvironment('0');
         }}
         style={styles.choiceLink}>
         <Text style={styles.choiceTextPlants}>
@@ -15,7 +15,7 @@ const ActionChoice = ({setPlantOrEnvironment, translation}) => {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          setPlantOrEnvironment('env');
+          setPlantOrEnvironment('1');
         }}
         style={styles.choiceLink}>
         <Text style={styles.choiceTextEnvs}>
@@ -29,8 +29,6 @@ const ActionChoice = ({setPlantOrEnvironment, translation}) => {
 export default ActionChoice;
 
 const styles = StyleSheet.create({
-  container: {height: '100%'},
-  formContainer: {marginBottom: 20},
   choiceContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -57,16 +55,4 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
   },
-  choiceTextDivide: {fontSize: 28},
-  EnvOption: {
-    margin: 10,
-    marginLeft: 40,
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  EnvOptionText: {
-    padding: 5,
-    fontSize: 25,
-  },
-  optionImage: {width: 30, height: 30},
 });

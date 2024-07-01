@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Button,
-  ToastAndroid,
-} from 'react-native';
+import {StyleSheet, Text, TextInput, View, ToastAndroid} from 'react-native';
 import React, {useState} from 'react';
 import CalculatorButton from './CalculatorButton';
 import {textInputStyle} from '../../../core/constants/Styles';
@@ -22,22 +15,40 @@ const WaterCalc = ({theme, translation}) => {
   const [flowerAnswer, setFlowerAnswer] = useState('');
   const calculateWaterNeeded = () => {
     if (vegWeeks === '') {
-      ToastAndroid.show('Enter Weeks In Veg.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterWeeks,
+        ToastAndroid.BOTTOM,
+      );
       return;
     } else if (flowerDays === '') {
-      ToastAndroid.show('Enter Days In Flower.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterDays,
+        ToastAndroid.BOTTOM,
+      );
       return;
     } else if (plantAge === '') {
-      ToastAndroid.show('Enter Plant Age.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterAge,
+        ToastAndroid.BOTTOM,
+      );
       return;
     } else if (numPlants === '') {
-      ToastAndroid.show('Enter Number Of Plants.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterNumber,
+        ToastAndroid.BOTTOM,
+      );
       return;
     } else if (vegNutrients === '') {
-      ToastAndroid.show('Enter Veg. Nutrient Amount.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterNutrientAmount,
+        ToastAndroid.BOTTOM,
+      );
       return;
     } else if (flowerNutrients === '') {
-      ToastAndroid.show('Enter Flower Nutrient Amount.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterFlowerAmount,
+        ToastAndroid.BOTTOM,
+      );
       return;
     }
     const vw = parseFloat(vegWeeks);
@@ -142,7 +153,7 @@ const WaterCalc = ({theme, translation}) => {
       <CalculatorButton
         theme={theme}
         onPress={calculateWaterNeeded}
-        message={'Calculate'}
+        message={translation && translation.calculators.calculators.Calculate}
       />
 
       <Text style={[styles.result, textColor]}>

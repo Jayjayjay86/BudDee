@@ -3,8 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import AddPlant from '../components/Plants/screens/AddPlant';
 import AddEnv from '../components/Environments/screens/AddEnv';
-
-import NewAction from '../components/Actions/screens/NewAction';
+import JournalEntry from '../components/Home/screens/JournalEntry';
 import BottomTabs from './bottomTabNavigator';
 import MoreTools from '../components/Settings/screens/MoreTools';
 import Calculators from '../components/Calculators/screens/Calculators';
@@ -39,6 +38,7 @@ import SelectEnv from '../components/Plants/screens/SelectEnv';
 import AfterCare from '../components/Guides/screens/AfterCare';
 import Drying from '../components/Guides/screens/Drying';
 import Harvesting from '../components/Guides/screens/Harvesting';
+import Archive from '../components/Plants/screens/Archive';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,8 +53,8 @@ const StackNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="add_actions"
-        component={NewAction}
+        name="journal"
+        component={JournalEntry}
         options={{
           headerShown: false,
         }}
@@ -62,6 +62,13 @@ const StackNavigator = () => {
       <Stack.Screen
         name="plant"
         component={Plant}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="archive"
+        component={Archive}
         options={{
           headerShown: false,
         }}

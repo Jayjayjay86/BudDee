@@ -17,7 +17,7 @@ const StrainSelector = ({
   setPlantObject,
   strains,
 }) => {
-  const textStyles = {color: colors.plants.new.textColor};
+  const textStyles = {color: colors.core.textColor};
 
   return (
     <View style={styles.inputContainer}>
@@ -56,49 +56,8 @@ const StrainSelector = ({
 export default StrainSelector;
 
 const styles = StyleSheet.create({
-  container: {flexDirection: 'column', height: '100%'},
-  form: {flex: 1},
-  inputText: {fontSize: 14, fontFamily: 'Poppins-Regular', margin: 5},
-  modalSelector: {marginHorizontal: 15},
-  modalSelectorPhase: {marginVertical: 10},
-  phaseContainer: {},
-  phaseSelect: {},
-  phaseItems: {flexDirection: 'row', justifyContent: 'space-around'},
-  phaseItem: {
-    borderWidth: 2,
-    minWidth: 90,
-    alignItems: 'center',
-    borderRadius: 5,
-  },
-  phaseHeader: {textAlign: 'center', fontSize: 20},
-  phaseItemText: {fontFamily: 'Poppins-LightItalic', paddingHorizontal: 5},
-  phaseImage: {width: 35, height: 35},
-  datePicker: {},
-  dateMarker: {
-    fontFamily: 'Poppins-Regular',
-    fontSize: 19,
-    borderBottomColor: 'black',
-    borderBottomWidth: 2,
-  },
-  phaseBox: {
-    marginVertical: 20,
-  },
-  formText: {fontSize: 20, fontFamily: 'Poppins-Regular'},
-  phaseInput: {
-    flexDirection: 'row',
-    width: '90%',
+  inputContainer: {marginVertical: 25},
 
-    justifyContent: 'space-between',
-    marginVertical: 8,
-    alignItems: 'baseline',
-    marginHorizontal: 15,
-  },
-  textInput: {
-    fontSize: 16,
-    fontFamily: 'Poppins-Regular',
-    borderBottomColor: 'black',
-    borderBottomWidth: 2,
-    width: 50,
-    textAlign: 'center',
-  },
+  inputText: {fontSize: 22, fontFamily: 'Poppins-Regular', margin: 5},
+  modalSelector: {marginHorizontal: 15},
 });

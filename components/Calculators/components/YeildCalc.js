@@ -1,11 +1,4 @@
-import {
-  Button,
-  StyleSheet,
-  Text,
-  TextInput,
-  ToastAndroid,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, TextInput, ToastAndroid, View} from 'react-native';
 import React, {useState} from 'react';
 import CalculatorButton from './CalculatorButton';
 import {textInputStyle} from '../../../core/constants/Styles';
@@ -18,13 +11,22 @@ const YeildCalc = ({theme, translation}) => {
 
   const calculateYield = () => {
     if (wattage === '') {
-      ToastAndroid.show('Enter wattage.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterWattage,
+        ToastAndroid.BOTTOM,
+      );
       return;
     } else if (vegWeeks === '') {
-      ToastAndroid.show('Enter Weeks In Veg.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterWeeks,
+        ToastAndroid.BOTTOM,
+      );
       return;
     } else if (flowerDays === '') {
-      ToastAndroid.show('Enter Days In Flower.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterWattage,
+        ToastAndroid.BOTTOM,
+      );
       return;
     }
     const w = Number(wattage);
@@ -32,7 +34,6 @@ const YeildCalc = ({theme, translation}) => {
     const fd = Number(flowerDays);
     let yields = 0;
 
-    // For wattage up to 1000
     if (w <= 1000) {
       yields = w * (vw + fd / 7) * 0.06;
     } else {
@@ -40,7 +41,7 @@ const YeildCalc = ({theme, translation}) => {
 
       const extraWattage = Math.max(0, w + 1200);
       const extraYield =
-        (extraWattage / 600) * (1000 * (vw + fd / 7) * 0.06) * 0.35; // Adjust fraction as needed
+        (extraWattage / 600) * (1000 * (vw + fd / 7) * 0.06) * 0.35;
       yields += extraYield;
     }
 

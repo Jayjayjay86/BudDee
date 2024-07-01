@@ -1,10 +1,9 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import PlantSelector from './PlantSelector';
 import ActionSelector from './ActionSelector';
 import DateSelector from './DateSelector';
 import DescriptionInput from './DescriptionInput';
-import PlantAmountSelector from './PlantAmountSelector';
 
 const NewPlantActionList = ({
   icons,
@@ -60,3 +59,19 @@ const NewPlantActionList = ({
 };
 
 export default NewPlantActionList;
+
+const styles = StyleSheet.create({
+  container: {height: '100%', margin: 15, marginTop: 20},
+
+  EnvOption: {
+    marginTop: 5,
+    alignItems: 'center',
+    flexDirection: 'row',
+    padding: 14,
+  },
+  EnvOptionText: {
+    padding: 5,
+    fontSize: 25,
+  },
+  optionImage: {width: 30, height: 30},
+});

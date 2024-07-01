@@ -28,10 +28,11 @@ const ConfirmDeletePlant = (
               setIsVisible(false);
             }}
           />
-          <Text style={styles.confirm}>Confirm Deletion?</Text>
+          <Text style={styles.confirm}>
+            {translation.plants && translation.plants.others.ConfirmBatch}
+          </Text>
           <Text style={styles.confirmation}>
             {translation.core && translation.plants.plant.DoYou}{' '}
-            {selectedEnvironment.name}?
           </Text>
           <TouchableOpacity
             style={styles.confirm}

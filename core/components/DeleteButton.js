@@ -1,7 +1,7 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 
-const DeleteButton = ({theme, onPress}) => {
+const DeleteButton = ({translation, theme, onPress}) => {
   const textColor = {color: theme.core.textColor};
 
   const border = {borderColor: theme.core.darkBorder};
@@ -9,7 +9,7 @@ const DeleteButton = ({theme, onPress}) => {
   return (
     <TouchableOpacity style={styles.confirm} onPress={onPress}>
       <Text style={[styles.confirmText, textColor, redBackground, border]}>
-        Delete
+        {translation.core && translation.core.Delete}
       </Text>
     </TouchableOpacity>
   );

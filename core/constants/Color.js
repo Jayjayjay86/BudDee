@@ -18,6 +18,7 @@ export const CoreColor = {
   plantGreen: 'rgba(0,122,0,0.3)',
   deleteRed: 'rgba(170,0,0,0.7)',
   calculate: 'rgba(0,122,0,0.7)',
+  softGrey: 'rgba(235,235,230,0.3)',
 };
 export const colorMode = async isDarkmode => {
   try {
@@ -34,6 +35,7 @@ export const colorMode = async isDarkmode => {
           darkBorder: CoreColor.darkDarkest,
           textColor: CoreColor.darkText,
           lightBorder: CoreColor.lightBorder,
+          lightestBorder: CoreColor.softGrey,
           white: CoreColor.white,
           bottomtabs: {
             backgroundColor: CoreColor.darkBackground,
@@ -126,6 +128,7 @@ export const colorMode = async isDarkmode => {
         background: CoreColor.white,
         activityIndicator: CoreColor.darkGrey,
         textColor: CoreColor.darkest,
+        lightestBorder: CoreColor.softGrey,
         bottomtabs: {
           backgroundColor: CoreColor.primary,
           borderColor: CoreColor.primaryBorder,

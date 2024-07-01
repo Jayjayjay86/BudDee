@@ -192,42 +192,11 @@ const ActionSelector = ({colors, setActionOptions, translation, icons}) => {
 export default ActionSelector;
 
 const styles = StyleSheet.create({
-  container: {},
-  form: {marginBottom: 20},
   formInput: {
     flexDirection: 'row',
     alignItems: 'center',
     margin: 10,
     marginRight: 30,
   },
-  optionInput: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 10,
-    marginRight: 30,
-  },
-  optionExtra: {
-    margin: 5,
-    marginTop: 10,
-    marginLeft: 15,
-    fontFamily: 'Poppins-Bold',
-  },
-  optionImage: {width: 40, height: 40, marginRight: 20},
-  formImage: {width: 40, height: 40, marginRight: 20},
-  optionTextInput: {
-    flex: 1,
-    fontFamily: 'Poppins-Regular',
-  },
-  textInput: {
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    flex: 1,
-    fontFamily: 'Poppins-Regular',
-  },
-  dateMarker: {
-    borderBottomColor: 'black',
-    fontFamily: 'Poppins-Regular',
-  },
-  actionPickerItem: {},
   modalSelector: {flex: 1},
 });

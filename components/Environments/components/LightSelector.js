@@ -6,9 +6,7 @@ import {
   modalOverlayStyle,
   modalSelectorCancelStyle,
   modalSelectorCancelTextStyle,
-  modalSelectorOptionContainerStyle,
   modalSelectorOptionTextStyle,
-  modalStyles,
 } from '../../../core/constants/Styles';
 import AddLightButton from './AddLightButton';
 import {lightObject} from '../../../core/constants/Misc';
@@ -37,7 +35,7 @@ const LightSelector = ({
   const HandleAddLight = () => {
     if (
       lightState.name === '' ||
-      lightState.name === ' ' ||
+      lightState.name === '' ||
       lightState.wattage === '' ||
       lightState.amount === '' ||
       lightState.amount === '0'
@@ -142,29 +140,10 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   textInputLights: {
-    borderBottomColor: 'black',
     borderBottomWidth: 1,
     fontFamily: 'Poppins-Regular',
     fontSize: 11,
     minWidth: 55,
-    textAlign: 'center',
-  },
-  textInputMeasurements: {
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    fontFamily: 'Poppins-Regular',
-    fontSize: 12,
-    minWidth: 80,
-    textAlign: 'center',
-  },
-  textInputTemp: {
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    fontFamily: 'Poppins-Regular',
-    fontSize: 12,
-    width: 180,
-    marginBottom: 10,
-    alignSelf: 'center',
     textAlign: 'center',
   },
   inputText: {fontSize: 16, fontFamily: 'Poppins-Regular', margin: 5},

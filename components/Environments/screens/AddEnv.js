@@ -7,9 +7,9 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {EnvironmentObject} from '../../../core/constants/Misc';
-import LightSelector from '../components/LightSelector';
+
 import MeasurementSelector from '../components/MeasurementSelector';
-import OtherDetailsSelector from '../components/OtherDetailsSelector';
+
 import NameInput from '../components/NameInput';
 import BottomToolBar from '../../../core/components/Headers/BottomToolBar';
 import CreateHeader from '../../../core/components/Headers/CreateHeader';
@@ -32,18 +32,43 @@ const AddEnv = ({navigation, route}) => {
   };
   const handlePressNext = async () => {
     if (envObject.name === '') {
-      ToastAndroid.show('Enter a Name', ToastAndroid.showWithGravity);
+      ToastAndroid.show(
+        translation.environments &&
+          translation.environments.environments.EnterName,
+        ToastAndroid.BOTTOM,
+      );
+      return;
     }
     if (envObject.roomDetails.height === '') {
-      ToastAndroid.show('Enter a Room Height', ToastAndroid.showWithGravity);
+      ToastAndroid.show(
+        translation.environments &&
+          translation.environments.environments.EnterHeight,
+        ToastAndroid.BOTTOM,
+      );
+      return;
     }
     if (envObject.roomDetails.width === '') {
-      ToastAndroid.show('Enter a Room Width', ToastAndroid.showWithGravity);
+      ToastAndroid.show(
+        translation.environments &&
+          translation.environments.environments.EnterWidth,
+        ToastAndroid.BOTTOM,
+      );
+      return;
     }
     if (envObject.roomDetails.length === '') {
-      ToastAndroid.show('Enter a Room Length', ToastAndroid.showWithGravity);
+      ToastAndroid.show(
+        translation.environments &&
+          translation.environments.environments.EnterLength,
+        ToastAndroid.BOTTOM,
+      );
+      return;
     }
     if (envObject.lightHours === '') {
+      ToastAndroid.show(
+        translation.environments &&
+          translation.environments.environments.EnterHours,
+        ToastAndroid.BOTTOM,
+      );
       return;
     }
 
@@ -51,18 +76,32 @@ const AddEnv = ({navigation, route}) => {
       ...envObject,
     });
 
-    const newPlantData = await {
-      ...plantData,
-      environmentId: newEnvironmentId,
-    };
     if (plantData) {
-      await createPlants(newPlantData);
+      const newPlantData = {
+        ...plantData,
+        environmentId: newEnvironmentId,
+      };
+      const batchId = await createPlants(newPlantData);
+      updateEnvironment({
+        ...envObject,
+        plants: newEnvironmentId.plants.push(batchId),
+        id: newEnvironmentId,
+      });
+      ToastAndroid.show(
+        translation.environments &&
+          translation.environments.environments.EnvironmentUpdated,
+        ToastAndroid.BOTTOM,
+      );
+      navigation.navigate('Index');
+    } else {
+      ToastAndroid.show(
+        translation.environments &&
+          translation.environments.environments.EnvironmentCreated,
+        ToastAndroid.BOTTOM,
+      );
+      navigation.navigate('Index');
     }
-
-    updateEnvironment({...envObject, id: newEnvironmentId});
-    navigation.navigate('Index');
   };
-  const HandleAddLight = () => {};
 
   return (
     <View style={[styles.container, {backgroundColor: theme.core.background}]}>
@@ -86,15 +125,7 @@ const AddEnv = ({navigation, route}) => {
           envObject={envObject}
           colors={theme}
         />
-        <LightSelector
-          navigation={navigation}
-          translation={translation}
-          setEnvObject={setEnvObject}
-          envObject={envObject}
-          colors={theme}
-          icons={icons}
-          HandleAddLight={HandleAddLight}
-        />
+
         <MeasurementSelector
           translation={translation}
           setEnvObject={setEnvObject}
@@ -102,12 +133,6 @@ const AddEnv = ({navigation, route}) => {
           colors={theme}
         />
         <LightHourSelector
-          translation={translation}
-          setEnvObject={setEnvObject}
-          envObject={envObject}
-          colors={theme}
-        />
-        <OtherDetailsSelector
           translation={translation}
           setEnvObject={setEnvObject}
           envObject={envObject}

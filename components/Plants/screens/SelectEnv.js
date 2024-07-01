@@ -1,4 +1,4 @@
-import {Modal, StyleSheet, Text, ToastAndroid, View} from 'react-native';
+import {StyleSheet, Text, ToastAndroid, View} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 
 import BottomToolBar from '../../../core/components/Headers/BottomToolBar';
@@ -10,49 +10,68 @@ import {
   getEnvironments,
   updateEnvironment,
 } from '../../../database/environments';
-import {plantObject} from '../../../core/objects/types';
+
 import {createPlants} from '../../../database/plants';
 
+import {
+  modalOverlayStyle,
+  modalSelectorCancelStyle,
+  modalSelectorCancelTextStyle,
+  modalSelectorOptionContainerStyle,
+  modalSelectorOptionTextStyle,
+} from '../../../core/constants/Styles';
+
 const SelectEnv = ({navigation, route}) => {
+  const [isLoading, setIsLoading] = useState(true);
   const {plantData} = route.params ?? {};
+
   const {theme, icons, isDarkMode} = useTheme();
   const {translation} = useTranslation();
-  const [environmentArray, setEnvironmentArray] = useState([{}]);
-  const [selectedEnvironment, setSelectedEnvironment] = useState({});
+  const [environmentArray, setEnvironmentArray] = useState([]);
+  const [selectedEnvironment, setSelectedEnvironment] = useState(null);
 
   const handleGoBack = () => {
     navigation.goBack();
   };
+
   const handlePressNext = async () => {
-    try {
-      if (selectedEnvironment) {
-        const newPlants = await createPlants({
-          ...plantObject,
-          environmentId: selectedEnvironment.id,
-        });
-      }
-      await updateEnvironment(selectedEnvironment);
-      await loadData();
-      ToastAndroid.show('Plants Saved', ToastAndroid.BOTTOM);
+    if (plantData) {
+      const parsedPlantData = JSON.parse(plantData);
+      const newPlantObject = {
+        ...parsedPlantData,
+        environmentId: selectedEnvironment.id,
+      };
+
+      const batchId = await createPlants(newPlantObject);
+      const updatedPlants = [...selectedEnvironment.plants, batchId];
+
+      const newEnvironmentData = {
+        ...selectedEnvironment,
+        plants: updatedPlants,
+      };
+
+      await updateEnvironment(newEnvironmentData);
+
+      ToastAndroid.show(
+        selectedEnvironment
+          ? `Created,Updated ${newEnvironmentData.name}`
+          : 'Created,Updated',
+        ToastAndroid.BOTTOM,
+      );
       navigation.navigate('Index', 'Plants');
-    } catch (error) {}
+    } else {
+      ToastAndroid.show('No PlantData.', ToastAndroid.BOTTOM);
+    }
   };
-  const [isLoading, setIsLoading] = useState(true);
 
   async function loadData() {
     setIsLoading(true);
     try {
       const environmentsArray = await getEnvironments();
 
-      const mappedEnvironmentsArray = environmentsArray.map(
-        (environ, index) => {
-          return {...environ, key: index + 1, label: environ.name};
-        },
-      );
-
-      setEnvironmentArray(mappedEnvironmentsArray);
+      setEnvironmentArray(environmentsArray);
     } catch (error) {
-      console.error('Error In Environments.js:', error);
+      // console.error('Error In Environments.js:', error);
     }
 
     setIsLoading(false);
@@ -76,14 +95,26 @@ const SelectEnv = ({navigation, route}) => {
   return (
     <View style={styles.container}>
       <View style={styles.selectForm}>
-        <Text>{translation.plants && translation.plants.selectEnv.Choose}</Text>
+        <Text style={styles.inputText}>
+          {translation.plants && translation.plants.selectEnv.Choose}
+        </Text>
+        <ModalSelector
+          overlayStyle={modalOverlayStyle}
+          optionContainerStyle={modalSelectorOptionContainerStyle}
+          style={styles.modalSelector}
+          optionTextStyle={modalSelectorOptionTextStyle}
+          cancelStyle={modalSelectorCancelStyle}
+          cancelTextStyle={modalSelectorCancelTextStyle}
+          cancelText={translation.core && translation.core.Cancel}
+          onChange={value => {
+            setSelectedEnvironment(value);
+          }}
+          data={environmentArray}
+          keyExtractor={item => item.id}
+          labelExtractor={item => item.name}
+        />
       </View>
-      <ModalSelector
-        onChange={value => {
-          setSelectedEnvironment({...value, plants: plantData});
-        }}
-        data={environmentArray}
-      />
+
       <BottomToolBar
         colors={theme}
         icons={icons}
@@ -104,5 +135,12 @@ export default SelectEnv;
 
 const styles = StyleSheet.create({
   container: {height: '100%'},
+  inputText: {
+    fontSize: 20,
+    fontFamily: 'Poppins-SemiBold',
+    margin: 5,
+    textAlign: 'center',
+  },
+
   selectForm: {flex: 1},
 });

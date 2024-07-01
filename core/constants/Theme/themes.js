@@ -13,6 +13,7 @@ export const light = {
     plantGreen: CoreColor.plantGreen,
     background: CoreColor.white,
     darkBorder: CoreColor.darkDarkest,
+    deleteRed: CoreColor.deleteRed,
     lightBorder: CoreColor.lightBorder,
     activityIndicator: CoreColor.greyDark,
     textColor: CoreColor.darkest,

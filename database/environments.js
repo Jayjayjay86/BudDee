@@ -1,51 +1,33 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import 'react-native-get-random-values';
 import uuid from 'react-native-uuid';
-
-// environmentObject = {
-//   lights: {type: '', wattage: '', amount: ''},
-//   name: '',
-//   lightHours: '',
-//   roomDetails: {
-//     length: '',
-//     height: '',
-//     width: '',
-//     restingTemp: '',
-//     sealed: false,
-//     aircon: false,
-//     dehumidifer: false,
-//   },
-// plants: [],
-// harvestedPlants: [],
-// };
+import {newEntry} from './journal';
 
 export const createEnvironment = async object => {
   const uniqueId = uuid.v4();
+  const dateAdded = new Date();
   try {
-    const unparsedEnvironmentsArray = await AsyncStorage.getItem(
-      'environments',
-    );
-
-    const parsedEnvironments = unparsedEnvironmentsArray
-      ? JSON.parse(unparsedEnvironmentsArray)
-      : [];
-    if (parsedEnvironments.length > 1) {
-      Promise.reject(0);
-    }
+    const EnvsArray = await AsyncStorage.getItem('environments');
+    const parsedArray = EnvsArray ? JSON.parse(EnvsArray) : [];
 
     const combinedOperationObject = {
       id: uniqueId,
-      dateAdded: new Date().toISOString(),
+      dateAdded: dateAdded,
       ...object,
     };
-    parsedEnvironments.push(combinedOperationObject);
+    parsedArray.push(combinedOperationObject);
 
-    await AsyncStorage.setItem(
-      'environments',
-      JSON.stringify(parsedEnvironments),
-    );
-
-    return Promise.resolve(uniqueId);
+    await AsyncStorage.setItem('environments', JSON.stringify(parsedArray));
+    newEntry({
+      type: 'env',
+      envId: uniqueId,
+      dateAdded: dateAdded,
+      batches: [],
+      plants: [],
+      currentPhase: object.lightHours,
+      name: object.name,
+    });
+    return Promise.resolve(combinedOperationObject);
   } catch (error) {
     return Promise.reject(error);
   }
@@ -53,32 +35,89 @@ export const createEnvironment = async object => {
 
 export const getEnvironments = async () => {
   try {
-    const unparsedEnvironments = await AsyncStorage.getItem('environments');
-    return Promise.resolve(
-      unparsedEnvironments ? JSON.parse(unparsedEnvironments) : [],
-    );
+    const unparsedArray = await AsyncStorage.getItem('environments');
+    return Promise.resolve(unparsedArray ? JSON.parse(unparsedArray) : []);
   } catch (error) {
     return Promise.reject(`Error get environments: ${error}`);
   }
 };
+export const getEnvironmentById = async id => {
+  try {
+    const unparsedEnvironments = await AsyncStorage.getItem('environments');
+    const parsedEnvironments = unparsedEnvironments
+      ? JSON.parse(unparsedEnvironments)
+      : [];
 
+    const environment = parsedEnvironments.filter(object => object.id === id);
+
+    if (environment) {
+      return Promise.resolve(environment);
+    } else {
+      return Promise.reject();
+    }
+  } catch (error) {
+    return Promise.reject();
+  }
+};
 export const updateEnvironment = async object => {
-  console.log(object);
+  try {
+    const environments = await AsyncStorage.getItem('environments');
+    const parsedArray = environments ? JSON.parse(environments) : [];
+
+    const updatedEnvironments = parsedArray.map(environment =>
+      environment.id === object.id ? {...environment, ...object} : environment,
+    );
+
+    const updatedEnvironmentsString = JSON.stringify(updatedEnvironments);
+
+    await AsyncStorage.setItem('environments', updatedEnvironmentsString);
+
+    if (environments !== updatedEnvironmentsString) {
+      return Promise.resolve(true);
+    }
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const removePlantsByBatchEnv = async batchId => {
   try {
     const environments = await AsyncStorage.getItem('environments');
     const parsedEnvironments = environments ? JSON.parse(environments) : [];
 
-    const updatedenvironments = parsedEnvironments.map(env =>
-      env.id === object.id ? {...env, ...object} : env,
-    );
+    const updatedEnvironments = parsedEnvironments.map(env => ({
+      ...env,
+      plants: env.plants.filter(plantId => plantId !== batchId),
+    }));
 
-    const updatedenvironmentsString = JSON.stringify(updatedenvironments);
+    const updatedEnvironmentsString = JSON.stringify(updatedEnvironments);
 
-    await AsyncStorage.setItem('environments', updatedenvironmentsString);
+    await AsyncStorage.setItem('environments', updatedEnvironmentsString);
 
-    if (environments !== updatedenvironmentsString) {
-      return Promise.resolve();
+    if (environments !== updatedEnvironmentsString) {
+      return Promise.resolve(true);
+    } else {
+      return Promise.resolve(false);
     }
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+export const destroyEnvironmentBatches = async () => {
+  try {
+    const unparsedArray = await AsyncStorage.getItem('environments');
+    const parsedArray = JSON.parse(unparsedArray)
+      ? JSON.parse(unparsedArray)
+      : [];
+    if (parsedArray.length < 1) {
+      return Promise.resolve(true);
+    }
+    const mappedArray = parsedArray.map(environment => ({
+      ...environment,
+      plants: [],
+    }));
+    await AsyncStorage.setItem('environments', JSON.stringify(mappedArray));
+    return Promise.resolve(true);
   } catch (error) {
     return Promise.reject(error);
   }
@@ -92,14 +131,15 @@ export const destroyEnvironments = async () => {
     return Promise.reject(error);
   }
 };
+
 export const removeEnvironment = async environmentId => {
   try {
     const Environments = await AsyncStorage.getItem('environments');
-    const parsedEnvironments = Environments ? JSON.parse(Environments) : [];
-    const updatedEnvironments = parsedEnvironments.filter(
+    const parsedArray = Environments ? JSON.parse(Environments) : [];
+    const updatedEnvironments = parsedArray.filter(
       environment => environment.id !== environmentId,
     );
-    if (parsedEnvironments.length > updatedEnvironments.length) {
+    if (parsedArray.length > updatedEnvironments.length) {
       await AsyncStorage.setItem(
         'environments',
         JSON.stringify(updatedEnvironments),

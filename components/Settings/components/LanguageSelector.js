@@ -7,7 +7,6 @@ import {
   modalSelectorCancelTextStyle,
   modalSelectorOptionContainerStyle,
   modalSelectorOptionTextStyle,
-  overlayStyles,
 } from '../../../core/constants/Styles';
 import {languageNames} from '../../../core/constants/Misc';
 import {useTranslation} from '../../../core/constants/Locales/TranslationContext';

@@ -20,6 +20,7 @@ const BottomToolBar = ({
             <Text style={[styles.text, textStyle]}>{backMessage}</Text>
           </TouchableOpacity>
         </View>
+
         <View>
           <TouchableOpacity style={styles.nextButton} onPress={handlePressNext}>
             <Text style={[styles.text, textStyle]}>{nextMessage}</Text>

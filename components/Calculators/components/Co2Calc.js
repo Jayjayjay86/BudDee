@@ -1,17 +1,9 @@
-import {
-  Button,
-  StyleSheet,
-  Text,
-  TextInput,
-  ToastAndroid,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, TextInput, ToastAndroid, View} from 'react-native';
 import React, {useState} from 'react';
 import CalculatorButton from './CalculatorButton';
 import {textInputStyle} from '../../../core/constants/Styles';
 
 const Co2Calc = ({theme, translation}) => {
-  console.log(theme.core);
   const [length, setLength] = useState('');
   const [width, setWidth] = useState('');
   const [height, setHeight] = useState('');
@@ -19,13 +11,22 @@ const Co2Calc = ({theme, translation}) => {
 
   const calculateCO2 = () => {
     if (length === '') {
-      ToastAndroid.show('Enter Length.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterLength,
+        ToastAndroid.BOTTOM,
+      );
       return;
     } else if (width === '') {
-      ToastAndroid.show('Enter Width.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterWidth,
+        ToastAndroid.BOTTOM,
+      );
       return;
     } else if (height === '') {
-      ToastAndroid.show('Enter Height.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterHeight,
+        ToastAndroid.BOTTOM,
+      );
       return;
     }
 
@@ -76,7 +77,9 @@ const Co2Calc = ({theme, translation}) => {
       <CalculatorButton
         theme={theme}
         onPress={calculateCO2}
-        message="Calculate CO2 Needed"
+        message={
+          translation && translation.calculators.calculators.CalculateCO2
+        }
       />
       <Text style={[styles.result, textColor]}>
         {result

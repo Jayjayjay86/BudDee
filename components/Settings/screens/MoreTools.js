@@ -1,22 +1,27 @@
 import {StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Header from '../../../core/components/Headers/Header';
 
 import MoreMenuList from '../components/MoreMenuList';
 import {useTheme} from '../../../core/constants/Theme/ContextManager';
 import {useTranslation} from '../../../core/constants/Locales/TranslationContext';
+import CreateStrain from '../../../core/components/Strain/modal/CreateStrain';
 
 const MoreTools = ({navigation}) => {
+  const [showCreateStrainsWindow, setShowCreateStrainsWindow] = useState(false);
   const {theme, icons, isDarkMode} = useTheme();
   const {translation} = useTranslation();
-
+  const strainCreated = () => {};
   const handlePress = value => {
     switch (value) {
-      case 'add_actions':
-        navigation.navigate('add_actions');
+      case 'add_strain':
+        setShowCreateStrainsWindow(true);
         break;
       case 'plant':
         navigation.navigate('add_plants');
+        break;
+      case 'archive':
+        navigation.navigate('archive');
         break;
       case 'env':
         navigation.navigate('add_envs');
@@ -56,6 +61,15 @@ const MoreTools = ({navigation}) => {
         colors={theme}
         handlePress={handlePress}
       />
+      <CreateStrain
+        translation={translation}
+        colors={theme}
+        isModalVisible={showCreateStrainsWindow}
+        setIsModalVisible={setShowCreateStrainsWindow}
+        navigation={navigation}
+        icons={icons}
+        strainCreated={strainCreated}
+      />
     </View>
   );
 };
@@ -63,7 +77,7 @@ const MoreTools = ({navigation}) => {
 export default MoreTools;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {height: '100%'},
   menuList: {margin: 10, marginVertical: 5, fontSize: 15, height: '90%'},
   menuLink: {
     flexDirection: 'row',

@@ -25,7 +25,7 @@ const LoadingLanguageSelector = ({
         listType={'SCROLLVIEW'}
         animationType={'fade'}
         overlayStyle={overlayStyles}
-        cancelText="Cancel"
+        cancelText={translation.core && translation.core.Cancel}
       />
     </View>
   );

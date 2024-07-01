@@ -22,6 +22,7 @@ const journalButton = require('../../../assets/images/buttons/journal.png');
 const plantButton = require('../../../assets/images/buttons/plant.png');
 const moreToolsImage = require('../../../assets/images/buttons/more_tools.png');
 const createButton = require('../../../assets/images/buttons/about.png');
+const archiveButton = require('../../../assets/images/buttons/archive.png');
 //plantguide
 const vegPlant = require('../../../assets/images/plant_guide/vegetating.png');
 const flowerPlant = require('../../../assets/images/plant_guide/flowering.png');
@@ -153,16 +154,11 @@ export const lightIcons = {
   badge: [vegBadge, flowerBadge, hangingBadge],
   image: [arrowImage, loadingImage, buddeeLogo, NoPlantsImage, NoEnvsImage],
   buttons: {
-    toolbox: [
-      potLogIconImage,
-      envLogIconImage,
-      activityIconImage,
-      moreToolsImage,
-    ],
+    toolbox: [potLogIconImage, envLogIconImage, StrainImage, moreToolsImage],
     bottomTabs: [HomeButtonImage, PlantsImage, EnvironmentImage, MoreImage],
     settings: [buddeeLogo],
     moreTools: [
-      activityIconImage,
+      StrainImage,
       addPlantsButton,
       addEnvsButton,
       calcIconImage,
@@ -237,7 +233,7 @@ export const lightIcons = {
         airImage,
         humidityImage,
         nutesImage,
-        phaseImage,
+        phaseImage, //10
         wateringImage,
         seedsImage,
         repotImage,
@@ -264,6 +260,7 @@ export const lightIcons = {
         harvestButton,
         waterButton,
         infoIconImage,
+        archiveButton,
       ],
     },
   },
@@ -326,6 +323,7 @@ const journalButtonDark = require('../../../assets/images/buttons/dark/journal.p
 const plantButtonDark = require('../../../assets/images/buttons/dark/plant.png');
 const moreToolsImageDark = require('../../../assets/images/buttons/dark/more_tools.png');
 const createButtonDark = require('../../../assets/images/buttons/dark/about.png');
+const archiveButtonDark = require('../../../assets/images/buttons/dark/archive.png');
 // activity buttons
 const airImageDark = require('../../../assets/images/activity_buttons/dark/air.png');
 const checklistImageDark = require('../../../assets/images/activity_buttons/dark/checklist.png');
@@ -392,7 +390,7 @@ export const darkIcons = {
     toolbox: [
       potLogIconImageDark,
       envLogIconImageDark,
-      activityIconImageDark,
+      StrainImageDark,
       moreToolsImageDark,
     ],
     bottomTabs: [
@@ -403,7 +401,7 @@ export const darkIcons = {
     ],
     settings: [BuddeeLogoDark],
     moreTools: [
-      activityIconImageDark,
+      StrainImageDark,
       addPlantsButtonDark,
       addEnvsButtonDark,
       calcIconImageDark,
@@ -510,6 +508,7 @@ export const darkIcons = {
         harvestButtonDark,
         waterButtonDark,
         infoIconImageDark,
+        archiveButtonDark,
       ],
     },
   },

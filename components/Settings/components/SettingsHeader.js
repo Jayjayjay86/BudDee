@@ -2,6 +2,7 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 
 const SettingsHeader = ({
+  translation,
   icons,
   HandleSaveOptions,
   colors,
@@ -24,7 +25,9 @@ const SettingsHeader = ({
         <TouchableOpacity
           onPress={HandleSaveOptions}
           style={[styles.saveButton, buttonBackgroundColor]}>
-          <Text style={[styles.saveButtonText, buttonTextColor]}>Save</Text>
+          <Text style={[styles.saveButtonText, buttonTextColor]}>
+            {translation.settings && translation.settings.other.Save}
+          </Text>
         </TouchableOpacity>
       )}
     </View>

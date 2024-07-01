@@ -219,3 +219,29 @@ export const envData = [
     harvestedPlants: [],
   },
 ];
+export const fakeJournal = [
+  {
+    date: new Date(),
+    envs: [
+      {
+        id: '',
+        watered: [{date: new Date(), ph: '', ec: ''}],
+        lightHours: '',
+        plants: [],
+        tasks: [
+          {
+            date: new Date(),
+            details: {
+              taskName: '',
+              ph: '',
+              ec: '',
+              amt: '',
+              timeTaken: '',
+              notes: '',
+            },
+          },
+        ],
+      },
+    ],
+  },
+];

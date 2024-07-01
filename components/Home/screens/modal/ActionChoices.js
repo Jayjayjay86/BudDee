@@ -21,7 +21,7 @@ const ActionChoices = ({
   translation,
   isDarkMode,
 }) => {
-  console.log('shitttt', date);
+
   const [plantOrEnvironment, setPlantOrEnvironment] = useState('plant');
   const [selectedPlant, setSelectedPlant] = useState('');
   const [datePickerVisible, setDatePickerVisible] = useState(false);

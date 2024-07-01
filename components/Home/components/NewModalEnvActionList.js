@@ -102,28 +102,6 @@ const NewModalEnvActionList = ({icons, translation}) => {
 export default NewModalEnvActionList;
 
 const styles = StyleSheet.create({
-  formContainer: {},
-  choiceContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'center',
-    margin: 20,
-  },
-  choiceLink: {},
-  choiceTextPlants: {
-    padding: 5,
-    fontSize: 20,
-    backgroundColor: 'rgba(100,100,100,0.2)',
-    borderRightWidth: 1,
-  },
-  choiceTextEnvs: {
-    padding: 5,
-    fontSize: 20,
-    backgroundColor: 'rgba(100,100,100,0.2)',
-    borderColor: 'rgba(50,50,50,0.4)',
-    borderLeftWidth: 1,
-  },
-  choiceTextDivide: {fontSize: 25},
   EnvOption: {
     margin: 10,
 

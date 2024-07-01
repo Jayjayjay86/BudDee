@@ -1,11 +1,13 @@
 import {StyleSheet, Switch, Text, View} from 'react-native';
 import React from 'react';
 
-const DatabaseOptions = ({deleteStates, setDeleteStates}) => {
+const DatabaseOptions = ({deleteStates, setDeleteStates, translation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.databaseOptions}>
-        <Text style={styles.databaseOptionText}>Delete Strains</Text>
+        <Text style={styles.databaseOptionText}>
+          {translation.settings && translation.settings.other.DeleteStrains}
+        </Text>
         <Switch
           value={deleteStates.strains}
           style={styles.databaseSwitch}
@@ -18,7 +20,10 @@ const DatabaseOptions = ({deleteStates, setDeleteStates}) => {
         />
       </View>
       <View style={styles.databaseOptions}>
-        <Text style={styles.databaseOptionText}>Delete Environments</Text>
+        <Text style={styles.databaseOptionText}>
+          {translation.settings &&
+            translation.settings.other.DeleteEnvironments}
+        </Text>
         <Switch
           value={deleteStates.envs}
           style={styles.databaseSwitch}
@@ -31,7 +36,9 @@ const DatabaseOptions = ({deleteStates, setDeleteStates}) => {
         />
       </View>
       <View style={styles.databaseOptions}>
-        <Text style={styles.databaseOptionText}>Delete Plants</Text>
+        <Text style={styles.databaseOptionText}>
+          {translation.settings && translation.settings.other.DeletePlants}
+        </Text>
         <Switch
           value={deleteStates.plants}
           style={styles.databaseSwitch}
@@ -44,7 +51,9 @@ const DatabaseOptions = ({deleteStates, setDeleteStates}) => {
         />
       </View>
       <View style={styles.databaseOptions}>
-        <Text style={styles.databaseOptionText}>Delete Options</Text>
+        <Text style={styles.databaseOptionText}>
+          {translation.settings && translation.settings.other.DeleteOptions}
+        </Text>
         <Switch
           value={deleteStates.options}
           style={styles.databaseSwitch}
@@ -57,29 +66,16 @@ const DatabaseOptions = ({deleteStates, setDeleteStates}) => {
         />
       </View>
       <View style={styles.databaseOptions}>
-        <Text style={styles.databaseOptionText}>Delete Plant Journals</Text>
-        <Switch
-          value={deleteStates.plantJournal}
-          style={styles.databaseSwitch}
-          onChange={value => {
-            setDeleteStates(prevState => ({
-              ...prevState,
-              plantJournal: !prevState.plantJournal,
-            }));
-          }}
-        />
-      </View>
-      <View style={styles.databaseOptions}>
         <Text style={styles.databaseOptionText}>
-          Delete Environment Journals
+          {translation.settings && translation.settings.other.DeleteJournals}
         </Text>
         <Switch
-          value={deleteStates.envJournal}
+          value={deleteStates.journal}
           style={styles.databaseSwitch}
           onChange={value => {
             setDeleteStates(prevState => ({
               ...prevState,
-              envJournal: !prevState.envJournal,
+              journal: !prevState.journal,
             }));
           }}
         />

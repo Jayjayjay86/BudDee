@@ -1,30 +1,36 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import 'react-native-get-random-values';
 import uuid from 'react-native-uuid';
+import {newEntry} from './journal';
 
 // strainObject = {strainName: '',seedBankName: '', flowerTime: ''};
 
 export const createStrain = async object => {
   const uniqueId = uuid.v4();
+  const dateAdded = new Date();
   try {
     const unparsedStrainArray = await AsyncStorage.getItem('strain');
 
     const parsedStrain = unparsedStrainArray
       ? JSON.parse(unparsedStrainArray)
       : [];
-    if (parsedStrain.length > 1) {
-      Promise.reject(0);
-    }
 
     const combinedStrainObject = {
       id: uniqueId,
-      dateAdded: new Date().toISOString(),
+      dateAdded: dateAdded,
       ...object,
     };
+
     parsedStrain.push(combinedStrainObject);
 
     await AsyncStorage.setItem('strain', JSON.stringify(parsedStrain));
-
+    newEntry({
+      type: 'strain',
+      strainId: uniqueId,
+      name: object.strainName,
+      dateAdded: dateAdded,
+      flowerTime: object.flowerTime,
+    });
     return Promise.resolve(true);
   } catch (error) {
     return Promise.reject(error);
@@ -73,8 +79,9 @@ export const removeStrain = async strainId => {
     const updatedStrain = parsedStrain.filter(
       strainEntry => strainEntry.id !== strainId,
     );
+
     if (parsedStrain.length > updatedStrain.length) {
-      await AsyncStorage.setItem('strains', JSON.stringify(updatedStrain));
+      await AsyncStorage.setItem('strain', JSON.stringify(updatedStrain));
       return Promise.resolve([true, strainId]);
     }
   } catch (error) {

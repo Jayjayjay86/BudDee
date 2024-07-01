@@ -24,30 +24,8 @@ const ConfirmDeleteEnvironment = ({
   const background = {backgroundColor: theme.core.lightBorder};
   const plantBackground = {backgroundColor: theme.core.plantGreen};
   const border = {borderColor: theme.core.darkBorder};
-  const redBackground = {backgroundColor: 'rgba(170,0,0,0.7)'};
+
   const [showPlants, setShowPlants] = useState(false);
-  const [batches, setBatches] = useState({});
-  const [strains, setStrains] = useState({});
-
-  const sortPlants = () => {
-    let sortedPlants = {};
-    let sortedStrains = {};
-    try {
-      selectedEnvironment.plants.forEach((value, index) => {
-        if (!sortedPlants[value.batchId]) {
-          sortedPlants[value.batchId] = [];
-        }
-        sortedPlants[value.batchId].push(value);
-
-        setBatches(sortedPlants);
-        if (!sortedStrains[value.strain]) {
-          sortedStrains[value.strain] = [];
-        }
-        sortedStrains[value.strain].push(value);
-        setStrains(sortedStrains);
-      });
-    } catch {}
-  };
 
   return (
     <Modal transparent={true} style={styles.container} visible={isVisible}>
@@ -57,14 +35,18 @@ const ConfirmDeleteEnvironment = ({
             icons={icons}
             colors={theme}
             navigation={navigation}
-            message="Delete"
+            message={
+              translation.environments &&
+              translation.environments.environments.Delete
+            }
             handleGoBack={() => {
               setIsVisible(false);
             }}
           />
           <View style={styles.request}>
             <Text style={[styles.requestText, textColor]}>
-              Delete Environment?
+              {translation.environments &&
+                translation.environments.environments.DeleteEnvironment}
             </Text>
             <Text style={[styles.name, textColor, background, border]}>
               {selectedEnvironment.name}
@@ -74,12 +56,15 @@ const ConfirmDeleteEnvironment = ({
                 setShowPlants(true);
               }}>
               <Text style={[styles.plants, textColor, plantBackground, border]}>
-                Plants: {selectedEnvironment?.plants?.length}
+                {translation.environments &&
+                  translation.environments.environments.Plants}{' '}
+                {selectedEnvironment?.plants?.length}
               </Text>
             </TouchableOpacity>
           </View>
 
           <DeleteButton
+            translation={translation}
             onPress={() => {
               HandleDeleteEnvironment(selectedEnvironment.id);
             }}

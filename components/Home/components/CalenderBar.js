@@ -10,30 +10,23 @@ const CalenderBar = ({
   colors,
   handlePressDate,
 }) => {
-  const markedDatesArray = [
-    {
-      id: 0,
-      action: {type: '', title: '', time_taken: '', otherData: ''},
-      date: new Date(),
-
-      dots: [
-        {
-          color: colors.home.toolbox.textColor,
-          selectedColor: colors.home.calenderbar.borderColor,
-        },
-      ],
-    },
-  ];
-
   const [isCalendarLoaded, setIsCalendarLoaded] = useState(false);
   const calenderStyles = {
     backgroundColor: colors.home.toolbox.backgroundColor,
     borderColor: colors.home.calenderbar.borderColor,
   };
-  const textColor = {color: colors.home.toolbox.textColor};
-  const dateStyle = {fontFamily: 'Poppins-Bold', fontSize: 9};
-  const headerStyle = {color: colors.home.toolbox.textColor, fontSize: 13};
-  const innerStyle = {flex: 1, height: 200};
+
+  const dateStyle = {fontFamily: 'Poppins-Bold'};
+  const headerStyle = {
+    color: colors.home.toolbox.textColor,
+  };
+  const calendarContainerstyle = {
+    marginTop: 10,
+  };
+  const dayContainerStyle = {};
+  const innerStyle = {
+    flex: 1,
+  };
 
   useLayoutEffect(() => {
     setIsCalendarLoaded(true);
@@ -42,28 +35,31 @@ const CalenderBar = ({
     <View style={[styles.calender, calenderStyles]}>
       {isCalendarLoaded ? (
         <CalenderStrip
+          iconContainer={{flex: 0.1}}
           onDateSelected={date => {
             try {
-              const newDate = moment().toDate(date);
-
-              setSelectedDate(new Date(newDate));
-              handlePressDate(new Date(newDate));
-            } catch (error) {
-              console.log(error);
-            }
+              let newDate = moment(date).toDate().toLocaleDateString();
+              setSelectedDate(newDate);
+              handlePressDate(newDate);
+            } catch (error) {}
           }}
           style={styles.calenderStrip}
           innerStyle={innerStyle}
-          weekendDateNameStyle={{color: colors.home.toolbox.textColor}}
+          dayContainerStyle={dayContainerStyle}
+          weekendDateNameStyle={{
+            color: colors.home.toolbox.textColor,
+          }}
           weekendDateNumberStyle={{color: colors.home.toolbox.textColor}}
           markedDatesStyle={{
             color: colors.home.toolbox.textColor,
           }}
           scrollable={true}
           calendarHeaderStyle={headerStyle}
+          calendarHeaderContainerStyle={calendarContainerstyle}
           dateNameStyle={dateStyle}
           // datesWhitelist={datesWhitelist}
-          markedDates={markedDatesArray}
+          markedDates={journal}
+          locales={'it'}
         />
       ) : (
         <ActivityIndicator
@@ -82,6 +78,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 7,
     borderRadius: 2,
   },
-  calenderStrip: {height: 100, marginHorizontal: 5},
-  heading: {margin: 15, fontFamily: 'Poppins-Light', fontSize: 15},
+  calenderStrip: {
+    height: 140,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
 });

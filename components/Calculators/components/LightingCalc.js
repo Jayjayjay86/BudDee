@@ -1,11 +1,4 @@
-import {
-  Button,
-  StyleSheet,
-  Text,
-  TextInput,
-  ToastAndroid,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, TextInput, ToastAndroid, View} from 'react-native';
 import React, {useState} from 'react';
 import CalculatorButton from './CalculatorButton';
 import {textInputStyle} from '../../../core/constants/Styles';
@@ -18,13 +11,22 @@ const LightingCalc = ({theme, translation}) => {
 
   const calculateWattage = () => {
     if (width === '') {
-      ToastAndroid.show('Enter A Width.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterWidth,
+        ToastAndroid.BOTTOM,
+      );
       return;
     } else if (length === '') {
-      ToastAndroid.show('Enter A Length.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterLength,
+        ToastAndroid.BOTTOM,
+      );
       return;
     } else if (height === '') {
-      ToastAndroid.show('Enter Height From Floor.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterHeight,
+        ToastAndroid.BOTTOM,
+      );
       return;
     }
     const w = parseFloat(width);
@@ -38,7 +40,9 @@ const LightingCalc = ({theme, translation}) => {
   return (
     <View>
       <View style={styles.input}>
-        <Text style={[styles.label, textColor]}>Grow Space Width (m)</Text>
+        <Text style={[styles.label, textColor]}>
+          {translation && translation.calculators.calculators.GrowWidth}
+        </Text>
         <TextInput
           keyboardType="numeric"
           value={width}
@@ -47,7 +51,9 @@ const LightingCalc = ({theme, translation}) => {
         />
       </View>
       <View style={styles.input}>
-        <Text style={[styles.label, textColor]}>Grow Space Length (m)</Text>
+        <Text style={[styles.label, textColor]}>
+          {translation && translation.calculators.calculators.GrowLength}
+        </Text>
         <TextInput
           keyboardType="numeric"
           value={length}
@@ -57,7 +63,9 @@ const LightingCalc = ({theme, translation}) => {
       </View>
 
       <View style={styles.input}>
-        <Text style={[styles.label, textColor]}>Height From Floor (m)</Text>
+        <Text style={[styles.label, textColor]}>
+          {translation && translation.calculators.calculators.GrowHeight}
+        </Text>
         <TextInput
           keyboardType="numeric"
           value={height}
@@ -69,7 +77,7 @@ const LightingCalc = ({theme, translation}) => {
       <CalculatorButton
         theme={theme}
         onPress={calculateWattage}
-        message={'Calculate'}
+        message={translation && translation.calculators.calculators.Calculate}
       />
       <Text style={[styles.result, textColor]}>
         {wattage

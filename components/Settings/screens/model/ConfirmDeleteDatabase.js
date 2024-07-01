@@ -3,21 +3,22 @@ import React from 'react';
 import DeleteButton from '../../../../core/components/DeleteButton';
 import ModalHeader from '../../../../core/components/Headers/ModalHeader';
 import {destroyAllStrains} from '../../../../database/strains';
-import {destroyEnvironmentJournal} from '../../../../database/environmentJournal';
-import {destroyEnvironments} from '../../../../database/environments';
+import {
+  destroyEnvironmentBatches,
+  destroyEnvironments,
+} from '../../../../database/environments';
 import {destroyOptions} from '../../../../database/options';
-import {destroyPlantJournal} from '../../../../database/plantJournal';
 import {destroyPlants} from '../../../../database/plants';
 import {
   modalContainerStyle,
   modalOverlayStyle,
 } from '../../../../core/constants/Styles';
+import {destroyJournal} from '../../../../database/journal';
 
 const ConfirmDeleteDatabase = ({
   translation,
   isVisible,
   setIsVisible,
-  HandleConfirmDelete,
   theme,
   icons,
   navigation,
@@ -29,32 +30,44 @@ const ConfirmDeleteDatabase = ({
       if (deleteStates.strains) {
         await destroyAllStrains();
       }
-      if (deleteStates.envJournal) {
-        await destroyEnvironmentJournal();
-      }
+
       if (deleteStates.envs) {
         await destroyEnvironments();
       }
       if (deleteStates.options) {
         await destroyOptions();
       }
-      if (deleteStates.plantJournal) {
-        await destroyPlantJournal();
+      if (deleteStates.journal) {
+        await destroyJournal();
       }
       if (deleteStates.plants) {
+        await destroyEnvironmentBatches();
         await destroyPlants();
       }
 
-      ToastAndroid.show('Database Cleared', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation.core && translation.settings.settings.DatabaseCleared,
+        ToastAndroid.BOTTOM,
+      );
+      setDeleteStates({
+        strains: false,
+        plants: false,
+        options: false,
+        envs: false,
+        journal: false,
+      });
+      setIsVisible(false);
     } catch (error) {
       ToastAndroid.show('Error', ToastAndroid.BOTTOM);
       console.error(error);
     }
   };
-  const textColor = {color: theme.core.textColor};
-  const background = {backgroundColor: theme.core.lightBorder};
-  const plantBackground = {backgroundColor: theme.core.plantGreen};
-  const border = {borderColor: theme.core.darkBorder};
+  const requestTextColor = {color: theme.core.textColor};
+  const markerTextColor = {
+    color: theme.core.textColor,
+    backgroundColor: 'rgba(200,200,200,0.6)',
+  };
+
   return (
     <Modal transparent={true} style={styles.container} visible={isVisible}>
       <View style={modalOverlayStyle}>
@@ -63,36 +76,56 @@ const ConfirmDeleteDatabase = ({
             icons={icons}
             colors={theme}
             navigation={navigation}
-            message="Delete"
+            message={translation.core && translation.settings.settings.Delete}
             handleGoBack={() => {
               setIsVisible(false);
             }}
           />
           <View style={styles.centerView}>
-            <Text style={styles.requestText}>
+            <Text style={[styles.requestText, requestTextColor]}>
               {translation.core && translation.plants.plant.DoYou}{' '}
             </Text>
             <View style={styles.markers}>
               {deleteStates.strains && (
-                <Text style={styles.marker}>Strains</Text>
+                <Text style={[styles.marker, markerTextColor]}>
+                  {translation.core && translation.settings.settings.Strains}
+                </Text>
               )}
               {deleteStates.envJournal && (
-                <Text style={styles.marker}>Environment Journals</Text>
+                <Text style={[styles.marker, markerTextColor]}>
+                  {translation.core &&
+                    translation.settings.settings.EnvironmentJournals}
+                </Text>
               )}
               {deleteStates.envs && (
-                <Text style={styles.marker}>Environments</Text>
+                <Text style={[styles.marker, markerTextColor]}>
+                  {translation.core &&
+                    translation.settings.settings.Environments}
+                </Text>
               )}
               {deleteStates.options && (
-                <Text style={styles.marker}>Options</Text>
+                <Text style={[styles.marker, markerTextColor]}>
+                  {translation.core && translation.settings.settings.Options}
+                </Text>
               )}
-              {deleteStates.plantJournals && (
-                <Text style={styles.marker}>Plant Journals</Text>
+              {deleteStates.journal && (
+                <Text style={[styles.marker, markerTextColor]}>
+                  {translation.core && translation.settings.settings.Journals}
+                </Text>
               )}
-              {deleteStates.plants && <Text style={styles.marker}>Plants</Text>}
+              {deleteStates.plants && (
+                <Text style={[styles.marker, markerTextColor]}>
+                  {translation.core && translation.settings.settings.Plants}
+                </Text>
+              )}
             </View>
           </View>
 
-          <DeleteButton onPress={HandleDelete} theme={theme} />
+          <DeleteButton
+            translation={translation}
+            onPress={HandleDelete}
+            theme={theme}
+          />
         </View>
       </View>
     </Modal>
@@ -111,11 +144,9 @@ const styles = StyleSheet.create({
   marker: {
     fontFamily: 'Poppins-Bold',
     fontSize: 26,
-    backgroundColor: 'rgba(200,200,200,0.6)',
     marginVertical: 5,
     paddingTop: 6,
     paddingHorizontal: 25,
-
     borderWidth: 1,
     borderRadius: 10,
   },

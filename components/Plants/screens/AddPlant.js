@@ -3,16 +3,17 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
   ToastAndroid,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
 import CreateHeader from '../../../core/components/Headers/CreateHeader';
 import BottomToolBar from '../../../core/components/Headers/BottomToolBar';
 
 import {PlantObject, DisplayObject} from '../../../core/constants/Misc';
-import BeginningsSelector from '../components/BeginningsSelector';
+
 import StrainSelector from '../components/StrainSelector';
 import PhaseSelector from '../components/PhaseSelector';
 import CreateNewStrainButton from '../../../core/components/Strain/components/CreateNewStrainButton';
@@ -20,7 +21,7 @@ import CreateStrain from '../../../core/components/Strain/modal/CreateStrain';
 
 import {useTranslation} from '../../../core/constants/Locales/TranslationContext';
 import {useTheme} from '../../../core/constants/Theme/ContextManager';
-import PotSizeSelector from '../components/PotSizeSelector';
+
 import {useFocusEffect} from '@react-navigation/native';
 import {getStrains} from '../../../database/strains';
 import {
@@ -28,20 +29,25 @@ import {
   updateEnvironment,
 } from '../../../database/environments';
 import {createPlants} from '../../../database/plants';
-
-const fakeenvs = [{}];
+import FlowerBox from '../components/FlowerBox';
+import HangBox from '../components/HangBox';
+import VegBox from '../components/VegBox';
 
 const AddPlant = ({navigation, route}) => {
   const {environmentData} = route.params ?? {};
-
+  const [environmentArray, setEnvironmentArray] = useState([]);
   const {theme, icons, isDarkMode} = useTheme();
   const {translation} = useTranslation();
-  const [showStrain, setShowStrain] = useState(false);
+
   const [plantObject, setPlantObject] = useState(PlantObject);
+
+  const [showStrain, setShowStrain] = useState(false);
   const [vegDatePickerVisible, setvegDatePickerVisible] = useState(false);
   const [displayPhase, setDisplayPhase] = useState(DisplayObject);
-  const [environmentArray, setEnvironmentArray] = useState([{}]);
-  const strainCreated = () => {};
+
+  const strainCreated = async () => {
+    await loadData();
+  };
   const handleCreateStrain = () => {
     setShowStrain(true);
   };
@@ -51,41 +57,63 @@ const AddPlant = ({navigation, route}) => {
 
     component: (
       <CreateNewStrainButton
+        colors={theme}
         handleCreateStrain={handleCreateStrain}
         icons={icons}
         translation={translation}
       />
     ),
   };
-  const handlePressNext = () => {
+
+  const handlePressNext = async () => {
     try {
-      if (environmentData !== null) {
+      if (plantObject.fromType === '') {
+        ToastAndroid.show('Please Select Beginning Type', ToastAndroid.BOTTOM);
+        return;
+      }
+      if (plantObject.amount === '') {
+        ToastAndroid.show('Please Select A Plant Amount', ToastAndroid.BOTTOM);
+        return;
+      }
+      if (plantObject.currentPhase === '') {
+        ToastAndroid.show('Please Select A Medium', ToastAndroid.BOTTOM);
+        return;
+      }
+
+      if (environmentData) {
+        const parsedEnvironmentData = JSON.parse(environmentData);
         const newPlantObject = {
           ...plantObject,
-          environmentId: environmentData.id,
+          environmentId: parsedEnvironmentData.id,
         };
-        console.log('cuntcuntcunt', {...newPlantObject});
-        const batchId = createPlants(newPlantObject);
-        const updateOk = updateEnvironment({
-          ...environmentData,
-          plants: environmentData.plants.push(batchId),
-        });
 
-        console.log('yaryaryar', updateOk);
-        ToastAndroid.show('Created,Updated', ToastAndroid.BOTTOM);
+        const batchId = await createPlants(newPlantObject);
+        const updatedPlants = [...parsedEnvironmentData.plants, batchId];
+
+        const newEnvironmentData = {
+          ...parsedEnvironmentData,
+          plants: updatedPlants,
+        };
+
+        await updateEnvironment(newEnvironmentData);
+
+        ToastAndroid.show(
+          environmentData
+            ? `Created,Updated ${newEnvironmentData.name}`
+            : 'Created,Updated',
+          ToastAndroid.BOTTOM,
+        );
         navigation.navigate('Plants');
       } else {
-        try {
-          if (environmentArray.length < 1) {
-            navigation.navigate('add_envs', {
-              plantData: JSON.stringify(plantObject),
-            });
-          } else {
-            navigation.navigate('select_env', {
-              plantData: JSON.stringify(plantObject),
-            });
-          }
-        } catch {}
+        if (environmentArray.length < 1) {
+          navigation.navigate('add_envs', {
+            plantData: JSON.stringify(plantObject),
+          });
+        } else {
+          navigation.navigate('select_env', {
+            plantData: JSON.stringify(plantObject),
+          });
+        }
       }
     } catch (error) {}
   };
@@ -102,9 +130,7 @@ const AddPlant = ({navigation, route}) => {
       const environmentsArray = await getEnvironments();
 
       setEnvironmentArray(environmentsArray);
-    } catch (error) {
-      console.error('Error In Environments.js:', error);
-    }
+    } catch (error) {}
     try {
       const strainsArray = await getStrains();
 
@@ -119,9 +145,7 @@ const AddPlant = ({navigation, route}) => {
 
         setStrainArray(mappedStrainArray);
       }
-    } catch (error) {
-      console.error('Error In Environments.js:', error);
-    }
+    } catch (error) {}
     setIsLoading(false);
   }
   useEffect(() => {
@@ -129,10 +153,11 @@ const AddPlant = ({navigation, route}) => {
   }, []);
 
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       loadData();
     }, []),
   );
+  const textStyles = {color: theme.core.textColor};
   if (isLoading) {
     return (
       <View style={styles.container}>
@@ -140,6 +165,7 @@ const AddPlant = ({navigation, route}) => {
       </View>
     );
   }
+
   return (
     <View style={[styles.container, {backgroundColor: theme.core.background}]}>
       <StatusBar
@@ -150,14 +176,18 @@ const AddPlant = ({navigation, route}) => {
         colors={theme}
         message={translation.plants && translation.plants.addPlant.Create}
       />
+
       <View style={styles.form}>
         <ScrollView>
-          <BeginningsSelector
-            colors={theme}
-            translation={translation}
-            setPlantObject={setPlantObject}
-            plantObject={plantObject}
-          />
+          {environmentData && (
+            <View style={styles.batch}>
+              <Text style={styles.batchText}>Adding New Batch To </Text>
+              <Text style={styles.batchName}>
+                {environmentData && JSON.parse(environmentData).name}
+              </Text>
+            </View>
+          )}
+
           <StrainSelector
             colors={theme}
             translation={translation}
@@ -165,12 +195,21 @@ const AddPlant = ({navigation, route}) => {
             strains={strainArray}
             plantObject={plantObject}
           />
-          <PotSizeSelector
-            colors={theme}
-            translation={translation}
-            setPlantObject={setPlantObject}
-            strainsData={strainArray}
-          />
+          <View style={styles.phaseInput}>
+            <Text style={[styles.formText, textStyles]}>
+              {translation.plants && translation.plants.addPlant.AmountPlants}
+            </Text>
+
+            <TextInput
+              keyboardType={'numeric'}
+              placeholder="0"
+              style={styles.textInput}
+              onChangeText={text => {
+                setPlantObject({...plantObject, amount: text});
+              }}
+            />
+          </View>
+
           <PhaseSelector
             isDarkMode={isDarkMode}
             colors={theme}
@@ -181,7 +220,50 @@ const AddPlant = ({navigation, route}) => {
             setvegDatePickerVisible={setvegDatePickerVisible}
             plantObject={plantObject}
             vegDatePickerVisible={vegDatePickerVisible}
+            icons={icons}
           />
+          {displayPhase.veg && (
+            <VegBox
+              isDarkMode={isDarkMode}
+              colors={theme}
+              translation={translation}
+              setDisplayPhase={setDisplayPhase}
+              displayPhase={displayPhase}
+              setPlantObject={setPlantObject}
+              setvegDatePickerVisible={setvegDatePickerVisible}
+              plantObject={plantObject}
+              vegDatePickerVisible={vegDatePickerVisible}
+              icons={icons}
+            />
+          )}
+          {displayPhase.flower && (
+            <FlowerBox
+              isDarkMode={isDarkMode}
+              colors={theme}
+              translation={translation}
+              setDisplayPhase={setDisplayPhase}
+              displayPhase={displayPhase}
+              setPlantObject={setPlantObject}
+              setvegDatePickerVisible={setvegDatePickerVisible}
+              plantObject={plantObject}
+              vegDatePickerVisible={vegDatePickerVisible}
+              icons={icons}
+            />
+          )}
+          {displayPhase.hang && (
+            <HangBox
+              isDarkMode={isDarkMode}
+              colors={theme}
+              translation={translation}
+              setDisplayPhase={setDisplayPhase}
+              displayPhase={displayPhase}
+              setPlantObject={setPlantObject}
+              setvegDatePickerVisible={setvegDatePickerVisible}
+              plantObject={plantObject}
+              vegDatePickerVisible={vegDatePickerVisible}
+              icons={icons}
+            />
+          )}
         </ScrollView>
       </View>
       <BottomToolBar
@@ -213,7 +295,7 @@ export default AddPlant;
 
 const styles = StyleSheet.create({
   container: {flexDirection: 'column', height: '100%'},
-  form: {flex: 1, margin: 5},
+  form: {flex: 1, margin: 5, alignItems: 'center', justifyContent: 'center'},
   inputText: {fontSize: 14, fontFamily: 'Poppins-Regular', margin: 5},
   modalSelector: {margin: 15},
   modalSelectorPhase: {marginVertical: 10},
@@ -239,18 +321,18 @@ const styles = StyleSheet.create({
   phaseBox: {
     marginVertical: 20,
   },
-  formText: {fontSize: 20, fontFamily: 'Poppins-Regular'},
+  formText: {fontSize: 22, fontFamily: 'Poppins-Regular'},
   phaseInput: {
+    alignItems: 'center',
     flexDirection: 'row',
     width: '90%',
 
     justifyContent: 'space-between',
-    marginVertical: 8,
-    alignItems: 'baseline',
-    marginHorizontal: 15,
+    marginVertical: 20,
+    marginHorizontal: 5,
   },
   textInput: {
-    fontSize: 16,
+    fontSize: 22,
     fontFamily: 'Poppins-Regular',
     borderBottomColor: 'black',
     borderBottomWidth: 2,

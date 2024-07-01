@@ -1,11 +1,4 @@
-import {
-  Button,
-  StyleSheet,
-  Text,
-  TextInput,
-  ToastAndroid,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, TextInput, ToastAndroid, View} from 'react-native';
 import React, {useState} from 'react';
 import CalculatorButton from './CalculatorButton';
 import {textInputStyle} from '../../../core/constants/Styles';
@@ -19,23 +12,35 @@ const ElecCalc = ({theme, translation}) => {
 
   const calculateElectricity = () => {
     if (wattage === '') {
-      ToastAndroid.show('Enter Wattage.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterWattage,
+        ToastAndroid.BOTTOM,
+      );
       return;
     } else if (rate === '') {
-      ToastAndroid.show('Enter Rate.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterRate,
+        ToastAndroid.BOTTOM,
+      );
       return;
     } else if (daysFlower === '') {
-      ToastAndroid.show('Enter Days in Flower.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterDays,
+        ToastAndroid.BOTTOM,
+      );
       return;
     } else if (weeksVeg === '') {
-      ToastAndroid.show('Enter Weeks In Veg.', ToastAndroid.BOTTOM);
+      ToastAndroid.show(
+        translation && translation.calculators.calculators.EnterWeeks,
+        ToastAndroid.BOTTOM,
+      );
       return;
     }
 
     const w = Number(wattage);
     const r = Number(rate);
-    const hoursFlower = Number(daysFlower) * 24; // Convert days to hours
-    const hoursVeg = Number(weeksVeg) * 7 * 24; // Convert weeks to hours
+    const hoursFlower = Number(daysFlower) * 24;
+    const hoursVeg = Number(weeksVeg) * 7 * 24; 
     const totalHours = hoursVeg + hoursFlower;
     setAnswer(((w * totalHours) / 1000) * r);
   };

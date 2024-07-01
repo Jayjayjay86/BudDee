@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 
 const MoreMenuList = ({icons, colors, translation, handlePress, darkmode}) => {
   const menuItemStyle = {
@@ -27,7 +27,7 @@ const MoreMenuList = ({icons, colors, translation, handlePress, darkmode}) => {
           <TouchableOpacity
             style={styles.menuLink}
             onPress={value => {
-              handlePress('add_actions');
+              handlePress('add_strain');
             }}>
             <View style={[styles.imageContainer, buttonStyle]}>
               <Image
@@ -36,7 +36,7 @@ const MoreMenuList = ({icons, colors, translation, handlePress, darkmode}) => {
               />
             </View>
             <Text style={[styles.menuText, textColor]}>
-              {translation.settings && translation.settings.moreTools.NewAction}
+              {translation.settings && translation.settings.moreTools.NewStrain}
             </Text>
             <Image style={styles.arrowImage} source={icons.others.core[1]} />
           </TouchableOpacity>
@@ -115,6 +115,25 @@ const MoreMenuList = ({icons, colors, translation, handlePress, darkmode}) => {
             </View>
             <Text style={[styles.menuText, textColor]}>
               {translation.settings && translation.settings.moreTools.Charts}
+            </Text>
+            <Image style={styles.arrowImage} source={icons.others.core[1]} />
+          </TouchableOpacity>
+        </View>
+        <View style={[styles.menuItem, menuItemStyle]}>
+          <TouchableOpacity
+            style={styles.menuLink}
+            onPress={value => {
+              handlePress('archive');
+            }}>
+            <View style={[styles.imageContainer, buttonStyle]}>
+              <Image
+                style={styles.menuImage}
+                source={icons.buttons.guides.others[15]}
+              />
+            </View>
+            <Text style={[styles.menuText, textColor]}>
+              {' '}
+              {translation.settings && translation.settings.moreTools.Archive}
             </Text>
             <Image style={styles.arrowImage} source={icons.others.core[1]} />
           </TouchableOpacity>

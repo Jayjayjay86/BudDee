@@ -3,14 +3,14 @@ import {NavigationContainer} from '@react-navigation/native';
 import StackNavigator from './navigation/navigationStack';
 import {DefaultOptionsObject} from './core/constants/Misc';
 import 'moment';
-
 import SplashScreen from 'react-native-splash-screen';
-
 import LoadingScreen from './core/components/Loading/LoadingScreen';
 import Disclaimer from './core/components/Loading/Disclaimer';
 import {createOptions, getOptions, updateOptions} from './database/options';
 import {ThemeProvider} from './core/constants/Theme/ContextManager';
 import TranslationProvider from './core/constants/Locales/TranslationContext';
+import {dailyPlantUpdate} from './database/journal';
+
 function App() {
   const [isAgreed, setIsAgreed] = useState(false);
 
@@ -26,6 +26,9 @@ function App() {
   };
   async function prepare() {
     setAppIsReady(false);
+    try {
+      // await dailyPlantUpdate();
+    } catch {}
     try {
       const options = await getOptions();
 
@@ -52,6 +55,7 @@ function App() {
   useEffect(() => {
     prepare();
   }, []);
+  console.log('bumbum', userOptions);
   const userTheme = userOptions.preferDarkMode ? 'dark' : 'light';
   const userTranslation = userOptions.preferredLanguage;
 

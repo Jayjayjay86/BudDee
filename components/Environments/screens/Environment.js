@@ -43,12 +43,7 @@ const Environment = ({navigation, route}) => {
           envObject={parsedEnvData}
           colors={theme}
         />
-        <LightSelector
-          translation={translation}
-          setEnvObject={setEnvObject}
-          envObject={parsedEnvData}
-          colors={theme}
-        />
+
         <MeasurementSelector
           translation={translation}
           setEnvObject={setEnvObject}
@@ -56,12 +51,6 @@ const Environment = ({navigation, route}) => {
           colors={theme}
         />
         <LightHourSelector
-          translation={translation}
-          setEnvObject={setEnvObject}
-          envObject={parsedEnvData}
-          colors={theme}
-        />
-        <OtherDetailsSelector
           translation={translation}
           setEnvObject={setEnvObject}
           envObject={parsedEnvData}
@@ -87,4 +76,7 @@ const Environment = ({navigation, route}) => {
 
 export default Environment;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {height: '100%'},
+  formContainer: {flex: 1},
+});

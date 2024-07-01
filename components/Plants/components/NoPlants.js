@@ -47,7 +47,7 @@ export default NoPlants;
 const styles = StyleSheet.create({
   container: {marginTop: 20, marginHorizontal: 10, height: '100%'},
   display: {alignItems: 'center'},
-  noplants: {width: 290, height: 490, margin: 20},
+  noplants: {width: 290, height: 440, margin: 20},
   arrow: {width: 50, height: 50},
   addplants: {
     width: 55,

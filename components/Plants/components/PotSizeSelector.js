@@ -8,16 +8,22 @@ import {
 const PotSizeSelector = ({
   colors,
   translation,
-  setNewPlantObject,
+  setPlantObject,
   strainsData,
 }) => {
   const textStyles = {color: colors.plants.new.textColor};
   return (
     <View>
       <Text style={[styles.label, textStyles]}>
-        {translation.plants && translation.plants.PotSize}
+        {translation.plants && translation.plants.other.PotSize}
       </Text>
-      <TextInput style={textInputStyle} keyboardType="numeric" />
+      <TextInput
+        onChangeText={value => {
+          setPlantObject(prevState => ({...prevState, potSize: value}));
+        }}
+        style={textInputStyle}
+        keyboardType="numeric"
+      />
     </View>
   );
 };

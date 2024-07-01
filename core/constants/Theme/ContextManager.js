@@ -9,6 +9,7 @@ export const useTheme = () => useContext(ThemeContext);
 
 // Theme provider component
 export const ThemeProvider = ({children, userTheme}) => {
+  console.log('shitbar', userTheme);
   const [theme, setTheme] = useState(userTheme === 'dark' ? dark : light);
   const [icons, setIcons] = useState(
     userTheme === 'dark' ? darkIcons : lightIcons,

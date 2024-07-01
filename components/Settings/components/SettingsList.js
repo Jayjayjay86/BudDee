@@ -1,26 +1,12 @@
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import LanguageSelector from './LanguageSelector';
-
 import ThemeSelector from './ThemeSelector';
 import ConfirmDeleteDatabase from '../screens/model/ConfirmDeleteDatabase';
-import {destroyAllStrains} from '../../../database/strains';
-import {destroyEnvironmentJournal} from '../../../database/environmentJournal';
-import {destroyOptions} from '../../../database/options';
-import {destroyEnvironments} from '../../../database/environments';
-import {destroyPlantJournal} from '../../../database/plantJournal';
-import {destroyPlants} from '../../../database/plants';
 import ViewStrains from '../../../core/components/Strain/modal/ViewStrains';
 import CreateStrain from '../../../core/components/Strain/modal/CreateStrain';
-import DatabaseOptions from './DatabaseOptions';
 import DatabaseSettings from './DatabaseSettings';
+import StrainDetails from '../../../core/components/Strain/modal/StrainDetails';
 
 const SettingsList = ({
   icons,
@@ -31,14 +17,20 @@ const SettingsList = ({
   setNewUserOptions,
   navigation,
   strains,
+  deletedStrain,
+  strainCreated,
 }) => {
+  const [selectedStrain, setSelectedStrain] = useState({});
+  const [isStrainDetailsVisible, setIsStrainDetailsVisible] = useState(false);
+  const [showStrainsWindow, setShowStrainsWindow] = useState(false);
+  const [showCreateStrainsWindow, setShowCreateStrainsWindow] = useState(false);
+  const [confirmDeleteDatabase, setConfirmDeleteDatabase] = useState(false);
   const [deleteStates, setDeleteStates] = useState({
     strains: false,
     plants: false,
     options: false,
     envs: false,
-    plantJournal: false,
-    envJournal: false,
+    journal: false,
   });
 
   const backgroundColor = {
@@ -48,19 +40,7 @@ const SettingsList = ({
   const textColor = {
     color: colors.settings.list.textColor,
   };
-  const HandleConfirmDelete = () => {
-    destroyAllStrains();
-    destroyOptions();
-    destroyEnvironmentJournal();
-    destroyEnvironments();
-    destroyPlantJournal();
-    destroyPlants();
-  };
-  const [showStrainsWindow, setShowStrainsWindow] = useState(false);
-  const [showCreateStrainsWindow, setShowCreateStrainsWindow] = useState(false);
-  const [confirmDeleteDatabase, setConfirmDeleteDatabase] = useState(false);
 
-  const strainCreated = () => {};
   return (
     <ScrollView style={styles.settingsList}>
       <Text style={[styles.heading, backgroundColor]}>
@@ -103,12 +83,21 @@ const SettingsList = ({
         isVisible={confirmDeleteDatabase}
         setIsVisible={setConfirmDeleteDatabase}
         translation={translation}
-        HandleConfirmDelete={HandleConfirmDelete}
         theme={colors}
         icons={icons}
         navigation={navigation}
         deleteStates={deleteStates}
         setDeleteStates={setDeleteStates}
+      />
+      <StrainDetails
+        translation={translation}
+        colors={colors}
+        isStrainDetailsVisible={isStrainDetailsVisible}
+        setIsStrainDetailsVisible={setIsStrainDetailsVisible}
+        navigation={navigation}
+        icons={icons}
+        selectedStrain={selectedStrain}
+        setSelectedStrain={setSelectedStrain}
       />
       <CreateStrain
         translation={translation}
@@ -120,10 +109,13 @@ const SettingsList = ({
         strainCreated={strainCreated}
       />
       <ViewStrains
+        deletedStrain={deletedStrain}
+        setSelectedStrain={setSelectedStrain}
         translation={translation}
         isVisible={showStrainsWindow}
         setIsVisible={setShowStrainsWindow}
         setShowCreateWindow={setShowCreateStrainsWindow}
+        setIsStrainDetailsVisible={setIsStrainDetailsVisible}
         HandleConfirm={() => {}}
         theme={colors}
         icons={icons}
